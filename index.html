@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#050a1a" />
+  <meta name="description" content="World-class AR+VR+MR Interactive Learning Platform for Math, Physics & Chemistry" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>CosmicLearn - AR+VR Interactive STEM</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #050a1a; color: #e8f4ff; font-family: 'Segoe UI', system-ui, sans-serif; }
+    #renderCanvas { position: fixed !important; inset: 0 !important; width: 100% !important; height: 100% !important; display: block; touch-action: none; outline: none; }
+    #loading-screen { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(ellipse at center, #0a1628 0%, #050a1a 100%); }
+    #camera-overlay { position: fixed; inset: 0; z-index: 9000; background: rgba(5,10,26,0.9); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; }
+    #tutorial-overlay { position: fixed; inset: 0; z-index: 8000; background: rgba(5,10,26,0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; }
+    #hud-layer { position: fixed !important; inset: 0 !important; pointer-events: none; z-index: 1000; }
+    .hidden { display: none !important; }
+    #webcam { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <div class="loading-logo">
+      <div class="loading-orb math-orb"></div>
+      <div class="loading-orb physics-orb"></div>
+      <div class="loading-orb chem-orb"></div>
+    </div>
+    <h1 class="loading-title">CosmicLearn</h1>
+    <p class="loading-subtitle">AR+VR Interactive STEM</p>
+    <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+    <p class="loading-status" id="loading-status">Initializing engine...</p>
+  </div>
+
+  <div id="camera-overlay" class="hidden">
+    <div class="overlay-card">
+      <div class="overlay-icon">HAND</div>
+      <h2>Hand Tracking</h2>
+      <p>Use your hands to grab planets, poke atoms, and spin ideas around. No video is stored or sent anywhere.</p>
+      <button id="enable-camera-btn" class="btn-primary">Start Hand Magic</button>
+      <button id="skip-camera-btn" class="btn-secondary">Use Mouse Instead</button>
+    </div>
+  </div>
+
+  <canvas id="renderCanvas"></canvas>
+  <video id="webcam" autoplay playsinline muted></video>
+
+  <div id="hud-layer">
+    <div id="mode-badge">DESKTOP</div>
+    <div id="gesture-hint"></div>
+    <div id="fps-counter"></div>
+    <div id="back-btn" class="hud-btn hidden">&lt; Back</div>
+    <div id="home-btn" class="hud-btn hidden">Home</div>
+    <div id="xr-btns">
+      <button id="vr-btn" class="xr-btn" title="Enter VR">VR</button>
+      <button id="ar-btn" class="xr-btn" title="Enter AR">AR</button>
+    </div>
+    <div id="feature-toolbar">
+      <button id="feat-screenshot" class="feat-btn" title="Screenshot">CAM</button>
+      <button id="feat-dashboard"  class="feat-btn" title="Progress Dashboard">LOG</button>
+      <button id="feat-exam"       class="feat-btn" title="Exam Mode">QZ</button>
+      <button id="feat-campaign"   class="feat-btn" title="Campaign Director">DIR</button>
+      <button id="feat-concept"    class="feat-btn" title="Concept Map">MAP</button>
+      <button id="feat-airdraw"    class="feat-btn" title="Air Drawing">DRW</button>
+      <button id="feat-voice"      class="feat-btn" title="Voice Commands">MIC</button>
+      <button id="feat-guide"      class="feat-btn" title="Gesture Guide">?</button>
+    </div>
+  </div>
+
+  <div id="tutorial-overlay" class="hidden">
+    <div class="tutorial-card">
+      <h3>Hand Gestures</h3>
+      <div class="gesture-grid">
+        <div class="gesture-item"><span class="g-icon">PIN</span><span>Pinch = Grab</span></div>
+        <div class="gesture-item"><span class="g-icon">PALM</span><span>Palm = Release</span></div>
+        <div class="gesture-item"><span class="g-icon">PT</span><span>Point = Select</span></div>
+        <div class="gesture-item"><span class="g-icon">FIST</span><span>Fist = Menu</span></div>
+        <div class="gesture-item"><span class="g-icon">2H</span><span>Two-hand Spread = Scale</span></div>
+        <div class="gesture-item"><span class="g-icon">ROT</span><span>Two-hand Rotate = Spin</span></div>
+      </div>
+      <button id="tutorial-close-btn" class="btn-primary">Launch the Lab</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

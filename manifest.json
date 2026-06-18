@@ -1,0 +1,17 @@
+{
+  "name": "CosmicLearn — AR+VR STEM",
+  "short_name": "CosmicLearn",
+  "description": "World-class AR+VR+MR Interactive Learning Platform for Maths, Physics & Chemistry",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#050a1a",
+  "theme_color": "#050a1a",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["education", "science"],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
