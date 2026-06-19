@@ -14,10 +14,19 @@ const XP_TABLE = {
   topicEnter: 25,
   bossStart: 20,
   bossProgress: 10,
+  bossWeakExpose: 25,
+  bossWeakHit: 45,
+  bossPowerHit: 12,
+  bossFinisherReady: 55,
   bossComplete: 140,
   campaignAdvance: 25,
   campaignChapterComplete: 180,
   campaignComplete: 320,
+  powerUse: 35,
+  arenaHit: 18,
+  arenaClear: 170,
+  mrSpectacle: 20,
+  mrProjection: 65,
 };
 
 const QUESTS = [
@@ -160,6 +169,26 @@ export class GameLayer {
       this._award(XP_TABLE.bossProgress, 'Boss hit', { quiet: true });
       this._toolPulse('boss_hit', 'Hit');
     }
+    if (type === 'bossWeakExpose') {
+      this._award(XP_TABLE.bossWeakExpose, 'Weak point exposed');
+      this._toolPulse('boss_weak', 'Weak Point');
+    }
+    if (type === 'bossWeakHit') {
+      this._award(XP_TABLE.bossWeakHit, 'Weak point hit');
+      this._toolPulse('boss_weak_hit', detail.weakPoint || 'Weak Hit');
+    }
+    if (type === 'bossPowerHit') {
+      this._award(XP_TABLE.bossPowerHit, 'Boss power hit', { quiet: true });
+    }
+    if (type === 'bossResist') {
+      this._award(5, 'Boss resisted', { quiet: true });
+      this._toolPulse('boss_resist', 'Resisted');
+    }
+    if (type === 'bossFinisherReady') {
+      this._award(XP_TABLE.bossFinisherReady, 'Finisher ready');
+      this._unlockBadge(`Finisher: ${detail.finisher || 'Ready'}`);
+      this._trailBurst('finisher');
+    }
     if (type === 'bossComplete') {
       this._bumpMetric('missions', 1);
       this._award(XP_TABLE.bossComplete, 'Boss defeated');
@@ -183,6 +212,29 @@ export class GameLayer {
       this._award(XP_TABLE.campaignComplete, 'Campaign complete');
       this._unlockBadge('Campaign Clear');
       this._trailBurst('campaign');
+    }
+    if (type === 'powerUse') {
+      this._award(XP_TABLE.powerUse, detail.power || 'STEM power');
+      this._toolPulse('power', detail.power || 'Power');
+      this._unlockBadge(`Power: ${detail.power || 'STEM'}`);
+    }
+    if (type === 'arenaHit') {
+      this._award(XP_TABLE.arenaHit + (detail.exact ? 12 : 0), detail.exact ? 'Weak point hit' : 'Arena hit', { quiet: !detail.exact });
+      this._toolPulse('arena_hit', detail.exact ? 'Weak Hit' : 'Hit');
+    }
+    if (type === 'arenaClear') {
+      this._award(XP_TABLE.arenaClear, 'Arena clear');
+      this._unlockBadge(`Arena: ${detail.arena || 'Clear'}`);
+      this._trailBurst('arena');
+    }
+    if (type === 'mrSpectacle') {
+      this._award(XP_TABLE.mrSpectacle, 'MR spectacle');
+      this._toolPulse('mr_spectacle', 'MR');
+    }
+    if (type === 'mrProjection') {
+      this._award(XP_TABLE.mrProjection, detail.label || 'MR projection');
+      this._unlockBadge(`MR: ${detail.label || 'Projection'}`);
+      this._trailBurst('mr');
     }
     this._checkQuests();
     this._save();

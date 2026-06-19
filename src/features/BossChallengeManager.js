@@ -7,6 +7,10 @@ const BOSSES = {
     timeLimit: 75,
     prompt: 'Build control: adjust wave parameters, pause, then inspect the quiet zone.',
     goals: { parameter: 3, pause: 1, inspect: 1 },
+    weakness: 'Wave Surge',
+    expose: 'parameter',
+    finisher: 'Two-hand Wave Surge',
+    weakPoint: 'Resonance Eye',
   },
   pendulum: {
     name: 'Energy Sentinel',
@@ -14,6 +18,10 @@ const BOSSES = {
     timeLimit: 70,
     prompt: 'Show energy control: change the pendulum, pause at an extreme, and inspect.',
     goals: { parameter: 2, pause: 1, inspect: 1 },
+    weakness: 'Time Freeze',
+    expose: 'pause',
+    finisher: 'Freeze Crush',
+    weakPoint: 'Energy Apex',
   },
   molecules: {
     name: 'Shape Guardian',
@@ -21,6 +29,10 @@ const BOSSES = {
     timeLimit: 70,
     prompt: 'Read the structure: inspect, rotate, and scale the molecule.',
     goals: { inspect: 1, transform: 2 },
+    weakness: 'Molecule Forge',
+    expose: 'transform',
+    finisher: 'Bond Collapse',
+    weakPoint: 'Unstable Bond',
   },
   function3d: {
     name: 'Surface Titan',
@@ -28,6 +40,10 @@ const BOSSES = {
     timeLimit: 80,
     prompt: 'Control the surface: inspect, rotate twice, and reset your view.',
     goals: { inspect: 1, transform: 2, reflect: 1 },
+    weakness: 'Function Rift',
+    expose: 'transform',
+    finisher: 'Critical Rift',
+    weakPoint: 'Critical Point',
   },
   titration: {
     name: 'pH Hydra',
@@ -35,6 +51,10 @@ const BOSSES = {
     timeLimit: 80,
     prompt: 'Handle the curve: adjust carefully, pause, and inspect the result.',
     goals: { parameter: 3, pause: 1, inspect: 1 },
+    weakness: 'Molecule Forge',
+    expose: 'parameter',
+    finisher: 'Reaction Break',
+    weakPoint: 'Equivalence Core',
   },
   default: {
     name: 'Concept Boss',
@@ -42,6 +62,10 @@ const BOSSES = {
     timeLimit: 75,
     prompt: 'Prove control: inspect, transform, change a parameter, and pause.',
     goals: { inspect: 1, transform: 1, parameter: 1, pause: 1 },
+    weakness: 'Portal Surge',
+    expose: 'inspect',
+    finisher: 'Concept Break',
+    weakPoint: 'Concept Core',
   },
 };
 
@@ -72,6 +96,10 @@ export class BossChallengeManager {
     this._remaining = 0;
     this._panel = null;
     this._timer = null;
+    this._weakExposed = false;
+    this._powerCounts = {};
+    this._lastPower = null;
+    this._finisherReady = false;
 
     this._bind();
   }
@@ -88,6 +116,10 @@ export class BossChallengeManager {
     this._remaining = this._boss.timeLimit;
     this._startedAt = Date.now();
     this._active = true;
+    this._weakExposed = false;
+    this._powerCounts = {};
+    this._lastPower = null;
+    this._finisherReady = false;
     this._showPanel();
     this.game?.recordEvent?.('bossStart', { topic: state.currentTopic, boss: this._boss.name });
     this.aiTutor?.coach?.(`${this._boss.name}: ${this._boss.prompt}`, { kind: 'boss' });
@@ -116,14 +148,66 @@ export class BossChallengeManager {
       if (event.actionName === GestureActions.INSPECT) this._tick('inspect');
       if (event.actionName === GestureActions.ROTATE || event.actionName === GestureActions.SCALE) this._tick('transform');
     });
+
+    document.addEventListener('cosmiclearn:game-event', event => {
+      if (!this._active || event.detail?.type !== 'powerUse') return;
+      this._powerHit(event.detail.detail?.power, event.detail.detail?.reason);
+    });
   }
 
   _tick(key) {
     if (!this._boss?.goals?.[key]) return;
     this._stats[key] = (this._stats[key] || 0) + 1;
+    if (key === this._boss.expose && !this._weakExposed) {
+      this._weakExposed = true;
+      this.game?.recordEvent?.('bossWeakExpose', { boss: this._boss.name, weakPoint: this._boss.weakPoint });
+      this.aiTutor?.coach?.(`${this._boss.weakPoint} exposed. Hit it with ${this._boss.weakness}.`, { kind: 'boss' });
+    }
     this.game?.recordEvent?.('bossProgress', { key, boss: this._boss.name });
     this._render();
     if (progress(this._stats, this._boss.goals) >= 100) this._complete(true);
+  }
+
+  _powerHit(powerName, reason) {
+    if (!powerName || !this._boss) return;
+    this._powerCounts[powerName] = (this._powerCounts[powerName] || 0) + 1;
+    const resisted = this._powerCounts[powerName] >= 3 && powerName === this._lastPower;
+    const exact = powerName === this._boss.weakness;
+    const exposed = this._weakExposed || exact && this._finisherReady;
+    const key = exact && exposed ? this._bestOpenGoal() : null;
+    this._lastPower = powerName;
+
+    if (resisted) {
+      this.game?.recordEvent?.('bossResist', { boss: this._boss.name, power: powerName });
+      this.aiTutor?.coach?.(`${this._boss.name} resisted repeated ${powerName}. Switch setup gestures to expose the weak point again.`, { kind: 'boss' });
+      this._weakExposed = false;
+      this._render();
+      return;
+    }
+
+    if (key) {
+      this._stats[key] = (this._stats[key] || 0) + 1;
+      this.game?.recordEvent?.('bossWeakHit', { boss: this._boss.name, power: powerName, weakPoint: this._boss.weakPoint, reason });
+      this._flashWeakPoint('hit');
+    } else {
+      this.game?.recordEvent?.('bossPowerHit', { boss: this._boss.name, power: powerName, reason });
+      this._flashWeakPoint(exact ? 'partial' : 'miss');
+    }
+
+    const pct = progress(this._stats, this._boss.goals);
+    if (pct >= 72 && !this._finisherReady) {
+      this._finisherReady = true;
+      this.game?.recordEvent?.('bossFinisherReady', { boss: this._boss.name, finisher: this._boss.finisher });
+      this.aiTutor?.coach?.(`${this._boss.finisher} ready. Fire ${this._boss.weakness} to finish.`, { kind: 'boss' });
+    }
+    this._render();
+    if (progress(this._stats, this._boss.goals) >= 100) this._complete(true);
+  }
+
+  _bestOpenGoal() {
+    const entries = Object.entries(this._boss.goals || {});
+    const open = entries.find(([key, goal]) => (this._stats[key] || 0) < goal);
+    return open?.[0] || entries[0]?.[0] || null;
   }
 
   _complete(success) {
@@ -171,6 +255,11 @@ export class BossChallengeManager {
         </header>
         <div class="boss-health"><span></span></div>
         <div class="boss-meta"></div>
+        <div class="boss-weakpoint">
+          <span></span>
+          <strong></strong>
+          <small></small>
+        </div>
         <p class="boss-prompt"></p>
         <div class="boss-goals"></div>
       `;
@@ -188,6 +277,11 @@ export class BossChallengeManager {
     this._panel.querySelector('h2').textContent = this._boss.title;
     this._panel.querySelector('.boss-health span').style.width = `${100 - pct}%`;
     this._panel.querySelector('.boss-meta').textContent = `${this._boss.name} HP ${100 - pct}% / ${this._remaining}s`;
+    this._panel.querySelector('.boss-weakpoint span').textContent = this._weakExposed ? 'EXPOSED' : this._finisherReady ? 'FINISHER' : 'LOCKED';
+    this._panel.querySelector('.boss-weakpoint strong').textContent = this._boss.weakPoint;
+    this._panel.querySelector('.boss-weakpoint small').textContent = `${this._boss.weakness} / ${this._boss.finisher}`;
+    this._panel.querySelector('.boss-weakpoint').classList.toggle('exposed', this._weakExposed);
+    this._panel.querySelector('.boss-weakpoint').classList.toggle('finisher', this._finisherReady);
     this._panel.querySelector('.boss-prompt').textContent = this._boss.prompt;
     this._panel.querySelector('.boss-goals').innerHTML = Object.entries(this._boss.goals).map(([key, goal]) => `
       <div>
@@ -206,5 +300,16 @@ export class BossChallengeManager {
       ? `Victory. ${this._boss.name} defeated in ${elapsed}s.`
       : `Time expired. ${this._boss.name} survived.`;
     this._panel.querySelector('.boss-health span').style.width = success ? '0%' : '100%';
+  }
+
+  _flashWeakPoint(kind) {
+    if (!this._panel) return;
+    const el = this._panel.querySelector('.boss-weakpoint');
+    if (!el) return;
+    el.classList.remove('hit', 'partial', 'miss');
+    requestAnimationFrame(() => {
+      el.classList.add(kind);
+      setTimeout(() => el.classList.remove(kind), 420);
+    });
   }
 }

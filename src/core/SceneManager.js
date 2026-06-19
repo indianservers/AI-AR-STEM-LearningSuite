@@ -1,7 +1,6 @@
 import {
   Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight,
-  DirectionalLight, Color3, Color4, PointLight,
-  MeshBuilder, StandardMaterial
+  DirectionalLight, Color3, Color4, PointLight, DefaultRenderingPipeline
 } from '@babylonjs/core';
 
 export class SceneManager {
@@ -9,6 +8,7 @@ export class SceneManager {
     this.engine = null;
     this.scene = null;
     this.camera = null;
+    this.pipeline = null;
     this._fpsHistory = [];
     this._fpsEl = document.getElementById('fps-counter');
   }
@@ -22,17 +22,15 @@ export class SceneManager {
     });
 
     this.scene = new Scene(this.engine);
-    this.scene.clearColor = new Color4(0.02, 0.04, 0.1, 1);
-
-    // Subtle exponential fog for depth (Scene.FOGMODE_EXP2 = 2)
+    this.scene.clearColor = new Color4(0.005, 0.008, 0.02, 1);
     this.scene.fogMode = 2;
-    this.scene.fogColor = new Color3(0.02, 0.05, 0.12);
-    this.scene.fogDensity = 0.015;
+    this.scene.fogColor = new Color3(0.01, 0.025, 0.065);
+    this.scene.fogDensity = 0.012;
 
     this._setupCamera(canvas);
     this._setupLights();
+    this._setupPostFX();
 
-    // Render loop
     this.engine.runRenderLoop(() => {
       this.scene.render();
       this._updateFPS();
@@ -44,34 +42,70 @@ export class SceneManager {
   }
 
   _setupCamera(canvas) {
-    this.camera = new ArcRotateCamera('mainCam', -Math.PI / 2, Math.PI / 3, 18, Vector3.Zero(), this.scene);
+    this.camera = new ArcRotateCamera(
+      'mainCam',
+      -Math.PI / 2.15,
+      Math.PI / 2.75,
+      20,
+      new Vector3(0, 0.15, 0),
+      this.scene
+    );
     this.camera.lowerRadiusLimit = 2;
     this.camera.upperRadiusLimit = 80;
     this.camera.wheelDeltaPercentage = 0.01;
     this.camera.minZ = 0.1;
     this.camera.maxZ = 1000;
+    this.camera.fov = 0.72;
+    this.camera.inertia = 0.72;
+    this.camera.panningInertia = 0.72;
     this.camera.attachControl(canvas, true);
     this.camera.useBouncingBehavior = true;
     this.camera.useAutoRotationBehavior = false;
   }
 
   _setupLights() {
-    // Ambient hemisphere — warm ground, cool sky
     const hemi = new HemisphericLight('hemi', new Vector3(0, 1, 0), this.scene);
-    hemi.intensity = 0.35;
-    hemi.diffuse = new Color3(0.6, 0.8, 1.0);
-    hemi.groundColor = new Color3(0.1, 0.05, 0.15);
+    hemi.intensity = 0.22;
+    hemi.diffuse = new Color3(0.35, 0.55, 1.0);
+    hemi.groundColor = new Color3(0.08, 0.035, 0.12);
 
-    // Key directional light
-    const dir = new DirectionalLight('dir', new Vector3(-1, -2, -1), this.scene);
-    dir.intensity = 0.7;
-    dir.diffuse = new Color3(0.9, 0.95, 1.0);
+    const key = new DirectionalLight('keyLight', new Vector3(-0.85, -1.65, -0.7), this.scene);
+    key.intensity = 1.05;
+    key.diffuse = new Color3(0.86, 0.93, 1.0);
 
-    // Rim fill — blue glow from below
-    const rim = new PointLight('rim', new Vector3(0, -8, 0), this.scene);
-    rim.intensity = 0.4;
-    rim.diffuse = new Color3(0.1, 0.4, 0.8);
-    rim.range = 40;
+    const blueRim = new PointLight('blueRim', new Vector3(-8, -4, 8), this.scene);
+    blueRim.intensity = 0.85;
+    blueRim.diffuse = new Color3(0.05, 0.35, 1.0);
+    blueRim.range = 46;
+
+    const warmEdge = new PointLight('warmEdge', new Vector3(9, 5, -6), this.scene);
+    warmEdge.intensity = 0.48;
+    warmEdge.diffuse = new Color3(1.0, 0.55, 0.22);
+    warmEdge.range = 50;
+  }
+
+  _setupPostFX() {
+    try {
+      const pipeline = new DefaultRenderingPipeline('cinematicPipeline', true, this.scene, [this.camera]);
+      pipeline.fxaaEnabled = true;
+      pipeline.bloomEnabled = true;
+      pipeline.bloomThreshold = 0.28;
+      pipeline.bloomWeight = 0.22;
+      pipeline.bloomKernel = 72;
+      pipeline.imageProcessingEnabled = true;
+      pipeline.imageProcessing.contrast = 1.18;
+      pipeline.imageProcessing.exposure = 1.08;
+      pipeline.imageProcessing.toneMappingEnabled = true;
+      pipeline.chromaticAberrationEnabled = true;
+      pipeline.chromaticAberration.aberrationAmount = 3;
+      pipeline.vignetteEnabled = true;
+      pipeline.vignetteWeight = 1.8;
+      pipeline.vignetteStretch = 0.55;
+      pipeline.vignetteColor = new Color4(0, 0, 0.02, 1);
+      this.pipeline = pipeline;
+    } catch (err) {
+      console.warn('Cinematic post-processing unavailable:', err);
+    }
   }
 
   _updateFPS() {
@@ -83,8 +117,10 @@ export class SceneManager {
     this._fpsEl.textContent = `${avg} fps`;
   }
 
-  /** Temporarily disable camera controls (during hand drag) */
-  lockCamera() { this.camera.detachControl(); }
+  lockCamera() {
+    this.camera.detachControl();
+  }
+
   unlockCamera() {
     this.camera.attachControl(document.getElementById('renderCanvas'), true);
   }
@@ -94,9 +130,9 @@ export class SceneManager {
   }
 
   resetCamera() {
-    this.camera.alpha = -Math.PI / 2;
-    this.camera.beta = Math.PI / 3;
-    this.camera.radius = 18;
-    this.camera.target = Vector3.Zero();
+    this.camera.alpha = -Math.PI / 2.15;
+    this.camera.beta = Math.PI / 2.75;
+    this.camera.radius = 20;
+    this.camera.target = new Vector3(0, 0.15, 0);
   }
 }

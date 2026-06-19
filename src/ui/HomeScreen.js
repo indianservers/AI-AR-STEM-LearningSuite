@@ -8,21 +8,21 @@ const SUBJECTS = [
     id: 'math',
     label: 'Mathematics',
     color: new Color3(0, 0.84, 1),
-    pos: new Vector3(-5, 0, 0),
+    pos: new Vector3(-5.4, 0.15, 0.65),
     summary: 'A portal into graphs, geometry, vectors, functions, patterns, and transformations.',
   },
   {
     id: 'physics',
     label: 'Physics',
     color: new Color3(1, 0.42, 0.13),
-    pos: new Vector3(0, 0, 0),
+    pos: new Vector3(0, 0.35, -0.35),
     summary: 'A portal into forces, motion, waves, energy, circuits, gravity, and fields.',
   },
   {
     id: 'chem',
     label: 'Chemistry',
     color: new Color3(0.5, 1, 0.5),
-    pos: new Vector3(5, 0, 0),
+    pos: new Vector3(5.4, 0.15, 0.65),
     summary: 'A portal into atoms, molecules, bonds, orbitals, reactions, and matter.',
   },
 ];
@@ -48,11 +48,12 @@ export class HomeScreen {
 
   hide() {
     this._active = false;
-    this._orbs.forEach(({ mesh, label, ring, particles }) => {
+    this._orbs.forEach(({ mesh, label, ring, halo, particles }) => {
       this.interaction.unregister(mesh);
       mesh.dispose();
       label.dispose();
       ring.dispose();
+      halo.dispose();
       particles.dispose();
     });
     this._orbs = [];
@@ -60,19 +61,21 @@ export class HomeScreen {
 
   _buildOrbs() {
     SUBJECTS.forEach((subj, i) => {
-      const orb = MeshBuilder.CreateSphere(`portal_${subj.id}`, { diameter: 2, segments: 32 }, this.scene);
+      const orb = MeshBuilder.CreateSphere(`portal_${subj.id}`, { diameter: 2.25, segments: 48 }, this.scene);
       orb.position = subj.pos.clone();
 
       const mat = new PBRMaterial(`orbMat_${subj.id}`, this.scene);
       mat.emissiveColor = subj.color;
-      mat.albedoColor = subj.color.scale(0.32);
-      mat.metallic = 0.15;
-      mat.roughness = 0.35;
-      mat.alpha = 0.94;
+      mat.albedoColor = subj.color.scale(0.24);
+      mat.metallic = 0.42;
+      mat.roughness = 0.18;
+      mat.alpha = 0.96;
+      mat.clearCoat.isEnabled = true;
+      mat.clearCoat.intensity = 0.7;
       orb.material = mat;
 
       const ring = MeshBuilder.CreateTorus(`ring_${subj.id}`, {
-        diameter: 3.2, thickness: 0.08, tessellation: 64,
+        diameter: 3.45, thickness: 0.055, tessellation: 96,
       }, this.scene);
       ring.position = subj.pos.clone();
       const ringMat = new StandardMaterial(`ringMat_${subj.id}`, this.scene);
@@ -82,8 +85,20 @@ export class HomeScreen {
       ring.isPickable = false;
       this.env.glowLayer?.addIncludedOnlyMesh(ring);
 
+      const halo = MeshBuilder.CreateTorus(`halo_${subj.id}`, {
+        diameter: 4.15, thickness: 0.026, tessellation: 96,
+      }, this.scene);
+      halo.position = subj.pos.clone();
+      halo.rotation.x = Math.PI / 2.35;
+      const haloMat = new StandardMaterial(`haloMat_${subj.id}`, this.scene);
+      haloMat.emissiveColor = subj.color.scale(0.85);
+      haloMat.alpha = 0.36;
+      halo.material = haloMat;
+      halo.isPickable = false;
+      this.env.glowLayer?.addIncludedOnlyMesh(halo);
+
       const label = this._makeLabel(subj);
-      label.position = subj.pos.add(new Vector3(0, -1.9, 0));
+      label.position = subj.pos.add(new Vector3(0, -2.18, 0));
 
       const ps = new ParticleSystem(`orbPS_${subj.id}`, 110, this.scene);
       const tex = new DynamicTexture(`orbTex_${subj.id}`, { width: 8, height: 8 }, this.scene);
@@ -94,10 +109,10 @@ export class HomeScreen {
       ps.particleTexture = tex;
       ps.emitter = orb.position;
       ps.createSphereEmitter(1.25, 0.5);
-      ps.minEmitPower = 0.3; ps.maxEmitPower = 0.95;
-      ps.minLifeTime = 0.8; ps.maxLifeTime = 2.0;
-      ps.emitRate = 36;
-      ps.minSize = 0.03; ps.maxSize = 0.12;
+      ps.minEmitPower = 0.22; ps.maxEmitPower = 1.18;
+      ps.minLifeTime = 0.9; ps.maxLifeTime = 2.4;
+      ps.emitRate = 52;
+      ps.minSize = 0.025; ps.maxSize = 0.14;
       ps.color1 = new Color4(subj.color.r, subj.color.g, subj.color.b, 1);
       ps.color2 = new Color4(subj.color.r, subj.color.g, subj.color.b, 0.45);
       ps.colorDead = new Color4(0, 0, 0, 0);
@@ -112,6 +127,7 @@ export class HomeScreen {
         const near = Math.max(0, 1 - dist / 2);
         orb.scaling.setAll(1 + near * 0.16);
         ring.scaling.setAll(1 + near * 0.1);
+        halo.scaling.setAll(1 + near * 0.08);
       }, {
         metadata: {
           title: `${subj.label} Portal`,
@@ -127,25 +143,25 @@ export class HomeScreen {
         },
       });
 
-      this._orbs.push({ mesh: orb, label, ring, particles: ps, subj, seed: i * 1.2 });
+      this._orbs.push({ mesh: orb, label, ring, halo, particles: ps, subj, seed: i * 1.2 });
     });
   }
 
   _makeLabel(subj) {
-    const plane = MeshBuilder.CreatePlane(`label_${subj.id}`, { width: 3.2, height: 0.72 }, this.scene);
+    const plane = MeshBuilder.CreatePlane(`label_${subj.id}`, { width: 3.45, height: 0.78 }, this.scene);
     plane.isPickable = false;
 
     const tex = new DynamicTexture(`labelTex_${subj.id}`, { width: 512, height: 128 }, this.scene);
     const ctx = tex.getContext();
     ctx.clearRect(0, 0, 512, 128);
-    ctx.fillStyle = 'rgba(5, 10, 26, 0.72)';
+    ctx.fillStyle = 'rgba(3, 8, 22, 0.78)';
     this._roundRect(ctx, 12, 20, 488, 88, 24);
     ctx.fill();
     ctx.strokeStyle = `rgb(${Math.round(subj.color.r * 255)}, ${Math.round(subj.color.g * 255)}, ${Math.round(subj.color.b * 255)})`;
     ctx.lineWidth = 3;
     this._roundRect(ctx, 12, 20, 488, 88, 24);
     ctx.stroke();
-    ctx.font = '700 34px Segoe UI, Arial, sans-serif';
+    ctx.font = '800 34px Segoe UI, Arial, sans-serif';
     ctx.fillStyle = '#e8f4ff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -182,15 +198,19 @@ export class HomeScreen {
   update(deltaTime) {
     if (!this._active) return;
     this._t += deltaTime * 0.001;
-    this._orbs.forEach(({ mesh, label, ring, seed }, i) => {
+    this._orbs.forEach(({ mesh, label, ring, halo, seed }, i) => {
       mesh.position.y = Math.sin(this._t + seed) * 0.3;
       ring.position.y = mesh.position.y;
-      label.position.y = mesh.position.y - 1.9;
+      halo.position.y = mesh.position.y;
+      label.position.y = mesh.position.y - 2.18;
       if (this.scene.activeCamera) label.lookAt(this.scene.activeCamera.position);
       mesh.scaling = Vector3.Lerp(mesh.scaling, Vector3.One(), 0.05);
       ring.scaling = Vector3.Lerp(ring.scaling, Vector3.One(), 0.05);
+      halo.scaling = Vector3.Lerp(halo.scaling, Vector3.One(), 0.05);
       ring.rotation.y = this._t * 0.4 + i * 0.8;
       ring.rotation.x = Math.sin(this._t * 0.3 + i) * 0.3;
+      halo.rotation.y = -this._t * 0.22 - i * 0.5;
+      halo.rotation.z = Math.sin(this._t * 0.2 + i) * 0.2;
       mesh.rotation.y += 0.006 + i * 0.001;
     });
   }

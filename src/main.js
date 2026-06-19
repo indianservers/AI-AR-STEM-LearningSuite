@@ -30,6 +30,10 @@ import { ConceptGraph }        from './features/ConceptGraph.js';
 import { LearningPathPlanner } from './features/LearningPathPlanner.js';
 import { GameLayer }            from './features/GameLayer.js';
 import { CampaignDirector }     from './features/CampaignDirector.js';
+import { CompetitiveLadder }    from './features/CompetitiveLadder.js';
+import { STEMPowerEngine }      from './features/STEMPowerEngine.js';
+import { STEMArenaCombat }      from './features/STEMArenaCombat.js';
+import { MRSpectacleMode }      from './features/MRSpectacleMode.js';
 import { AirDrawing }          from './features/AirDrawing.js';
 import { ExamMode }            from './features/ExamMode.js';
 import { AITutor }             from './features/AITutor.js';
@@ -135,6 +139,10 @@ async function boot() {
     let gameLayer = null;
     let bossChallenge = null;
     let campaignDirector = null;
+    let competitiveLadder = null;
+    let stemPowers = null;
+    let arenaCombat = null;
+    let mrSpectacle = null;
 
     // Navigation callbacks
     function goHome() {
@@ -158,6 +166,9 @@ async function boot() {
       intelligence?.syncContext?.();
       missionControl?.syncContext?.();
       campaignDirector?.syncContext?.();
+      stemPowers?.syncContext?.();
+      arenaCombat?.syncContext?.();
+      mrSpectacle?.syncContext?.();
       pathPlanner.syncContext({ currentSubject, currentTopic });
       gestureEngine.setGestureContext('home');
     }
@@ -177,6 +188,9 @@ async function boot() {
       intelligence?.syncContext?.();
       missionControl?.syncContext?.();
       campaignDirector?.syncContext?.();
+      stemPowers?.syncContext?.();
+      arenaCombat?.syncContext?.();
+      mrSpectacle?.syncContext?.();
       pathPlanner.syncContext({ currentSubject, currentTopic });
       pathPlanner.coachNext(subjectId);
       gestureEngine.setGestureContext(subjectId);
@@ -205,6 +219,9 @@ async function boot() {
       intelligence?.syncContext?.();
       missionControl?.syncContext?.();
       campaignDirector?.syncContext?.();
+      stemPowers?.syncContext?.();
+      arenaCombat?.syncContext?.();
+      mrSpectacle?.syncContext?.();
       pathPlanner.syncContext({ currentSubject, currentTopic });
       gestureEngine.setGestureContext(topicId);
       haptic.select();
@@ -225,6 +242,9 @@ async function boot() {
         intelligence?.syncContext?.();
         missionControl?.syncContext?.();
         campaignDirector?.syncContext?.();
+        stemPowers?.syncContext?.();
+        arenaCombat?.syncContext?.();
+        mrSpectacle?.syncContext?.();
         pathPlanner.syncContext({ currentSubject, currentTopic });
       } else if (currentSubject) {
         goHome();
@@ -247,6 +267,33 @@ async function boot() {
     campaignDirector = new CampaignDirector({
       gestureEngine,
       interaction,
+      aiTutor,
+      game: gameLayer,
+      getState: () => ({ currentSubject, currentTopic }),
+    });
+    competitiveLadder = new CompetitiveLadder({
+      gestureEngine,
+      interaction,
+      aiTutor,
+      getGameState: () => gameLayer.getGameState(),
+    });
+    stemPowers = new STEMPowerEngine({
+      scene,
+      gestureEngine,
+      aiTutor,
+      game: gameLayer,
+      getState: () => ({ currentSubject, currentTopic }),
+    });
+    arenaCombat = new STEMArenaCombat({
+      scene,
+      gestureEngine,
+      aiTutor,
+      game: gameLayer,
+      getState: () => ({ currentSubject, currentTopic }),
+    });
+    mrSpectacle = new MRSpectacleMode({
+      scene,
+      xrManager,
       aiTutor,
       game: gameLayer,
       getState: () => ({ currentSubject, currentTopic }),
@@ -288,6 +335,9 @@ async function boot() {
       showLoadout: () => gameLayer.showLoadout(),
       showAvatar: () => gameLayer.showAvatar(),
       showCampaign: () => campaignDirector.show(),
+      showLadder: () => competitiveLadder.show(),
+      triggerWow: () => stemPowers.triggerWow(),
+      toggleMR: () => mrSpectacle.toggle(),
       hideOverlays: () => gestureGuide.hide(),
       onModeChange: (mode) => {
         intelligence?.setMode?.(mode);
@@ -300,6 +350,7 @@ async function boot() {
 
     // XR
     await xrManager.init();
+    xrManager.onModeChange((mode) => mrSpectacle?.setXRMode?.(mode));
 
     // Voice Commands wiring
     const voice = new VoiceCommands((cmd, raw) => {
@@ -315,6 +366,9 @@ async function boot() {
       else if (cmd === 'loadout')   { gameLayer.showLoadout(); }
       else if (cmd === 'avatar')    { gameLayer.showAvatar(); }
       else if (cmd === 'campaign')  { campaignDirector.show(); }
+      else if (cmd === 'ladder')    { competitiveLadder.show(); }
+      else if (cmd === 'wow')       { stemPowers.triggerWow('voice'); }
+      else if (cmd === 'mr')        { mrSpectacle.toggle(); }
       else if (cmd === 'exam')      { gameLayer.recordEvent('quizOpen'); currentTopic ? bossChallenge.start() : examMode.start(currentSubject || 'math'); }
       else if (cmd === 'airdraw')   { airDrawing.activate(); }
       else if (cmd === 'conceptgraph') { conceptGraph.show(); }
@@ -373,6 +427,9 @@ async function boot() {
     });
     document.getElementById('feat-guide')?.addEventListener('click', () => gestureGuide.toggle());
     document.getElementById('feat-campaign')?.addEventListener('click', () => campaignDirector.show());
+    document.getElementById('feat-ladder')?.addEventListener('click', () => competitiveLadder.show());
+    document.getElementById('feat-wow')?.addEventListener('click', () => stemPowers.triggerWow('toolbar'));
+    document.getElementById('feat-mr')?.addEventListener('click', () => mrSpectacle.toggle());
     document.getElementById('feat-airdraw')?.addEventListener('click', () => {
       if (airDrawing._active) airDrawing.deactivate();
       else airDrawing.activate();
@@ -394,6 +451,9 @@ async function boot() {
       if (cmd === 'loadout')     gameLayer.showLoadout();
       if (cmd === 'avatar')      gameLayer.showAvatar();
       if (cmd === 'campaign')    campaignDirector.show();
+      if (cmd === 'ladder')      competitiveLadder.show();
+      if (cmd === 'wow')         stemPowers.triggerWow('teacher');
+      if (cmd === 'mr')          mrSpectacle.toggle();
       if (cmd === 'exam')        { gameLayer.recordEvent('quizOpen'); examMode.start(currentSubject || 'math'); }
       if (cmd === 'reset')       goHome();
     };
@@ -432,6 +492,8 @@ async function boot() {
 
       // Update environment
       env.update(deltaTime);
+      arenaCombat?.update?.(deltaTime);
+      mrSpectacle?.update?.(deltaTime);
 
       // Update hand viz + feedback
       if (handTracker.isRunning) {
