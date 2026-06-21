@@ -40,15 +40,15 @@ export class AITutor {
   _buildUI() {
     const btn = document.createElement('button');
     btn.id = 'tutor-btn';
-    btn.textContent = 'AI';
-    btn.title = 'Lab Buddy';
+    btn.textContent = '🤖';
+    btn.title = 'Chat with Lab Buddy';
     btn.style.cssText = `
-      position:fixed; bottom:20px; left:20px; width:44px; height:44px;
-      border-radius:50%; background:rgba(10,20,40,0.9); border:1px solid rgba(0,212,255,0.4);
-      color:#00d4ff; font-size:0.8rem; font-weight:800; cursor:pointer; z-index:2000;
-      backdrop-filter:blur(8px); transition:all 0.2s;
+      position:fixed; bottom:86px; left:18px; width:52px; height:52px;
+      border-radius:50%; background:rgba(8,18,46,0.94); border:2px solid rgba(0,212,255,0.5);
+      color:#00d4ff; font-size:1.4rem; font-weight:800; cursor:pointer; z-index:2200;
+      backdrop-filter:blur(10px); transition:all 0.25s;
       display:flex; align-items:center; justify-content:center;
-      pointer-events:all;
+      pointer-events:all; box-shadow:0 0 28px rgba(0,212,255,0.22),0 4px 16px rgba(0,0,0,0.4);
     `;
     btn.onclick = () => this._openChat();
     document.body.appendChild(btn);
@@ -69,7 +69,7 @@ export class AITutor {
 
     const title = document.createElement('div');
     title.style.cssText = 'color:#00d4ff;font-size:0.85rem;font-weight:700;';
-    title.textContent = 'AI Lab Buddy';
+    title.textContent = '🤖 Lab Buddy Chat';
 
     const messages = document.createElement('div');
     messages.style.cssText = 'max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;';
@@ -94,14 +94,14 @@ export class AITutor {
 
     const input = document.createElement('input');
     input.type = 'text';
-    input.placeholder = 'Ask the lab...';
+    input.placeholder = 'Ask me anything...';
     input.style.cssText = `
       flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
       border-radius:8px; padding:8px 12px; color:#e8f4ff; font-size:0.8rem; outline:none;
     `;
 
     const sendBtn = document.createElement('button');
-    sendBtn.textContent = 'Send';
+    sendBtn.textContent = '→';
     sendBtn.style.cssText = `
       background:rgba(0,212,255,0.15); border:1px solid rgba(0,212,255,0.3);
       border-radius:8px; padding:8px 12px; color:#00d4ff; cursor:pointer;
@@ -200,6 +200,11 @@ export class AITutor {
   setContext(ctx) {
     this._context = ctx;
     this.setLearningState({ topic: ctx && !['home', 'math', 'physics', 'chem'].includes(ctx) ? ctx : null });
+    // Auto-show a welcome tip when entering a new area
+    clearTimeout(this._autoCoachTimer);
+    this._autoCoachTimer = setTimeout(() => {
+      if (Date.now() >= this._quietUntil) this._renderCoach();
+    }, 1200);
   }
 
   setLearningState(partial = {}) {
@@ -279,14 +284,14 @@ export class AITutor {
     panel.className = 'hidden';
     panel.innerHTML = `
       <header>
-        <strong>AI Coach</strong>
-        <button type="button" data-action="quiet" aria-label="Quiet coach">Quiet</button>
+        <strong>Lab Buddy</strong>
+        <button type="button" data-action="quiet" aria-label="Dismiss">✕</button>
       </header>
       <p></p>
       <div>
-        <button type="button" data-action="hint">Hint</button>
-        <button type="button" data-action="why">Why?</button>
-        <button type="button" data-action="challenge">Challenge</button>
+        <button type="button" data-action="hint">💡 Hint</button>
+        <button type="button" data-action="why">🤔 Why?</button>
+        <button type="button" data-action="challenge">🎯 Challenge</button>
       </div>
     `;
     panel.addEventListener('click', (event) => {
@@ -312,15 +317,17 @@ export class AITutor {
 
   _introLine() {
     const state = this._learningState;
-    if (state.object) return `I am tracking ${state.object}. Ask for a hint, why it matters, or a challenge.`;
-    return `I am your Lab Buddy for ${this._context}. Ask for a hint, a challenge, or a tiny explanation.`;
+    if (state.object) return `I spotted ${state.object}! Want a hint, the "why", or a challenge?`;
+    const areaNames = { home: 'the Start Screen', math: 'Math World', physics: 'Physics World', chem: 'Chemistry World' };
+    const area = areaNames[this._context] || this._context;
+    return `Hi! I'm your Lab Buddy in ${area}. Ask me anything — hints, explanations, or challenges!`;
   }
 
   _suggestions() {
     const state = this._learningState;
-    if (state.object) return ['Explain this object', 'Give me a hint', 'Why this?', 'Challenge me'];
-    if (state.mode === 'explore') return ['What should I notice?', 'Give me a challenge', 'Explain the scene', 'Guide me'];
-    return ['Explain this', 'Give me a hint', 'What should I try?', 'Quiz me'];
+    if (state.object) return ['💡 Give me a hint', '🤔 Why does it work?', '🎯 Challenge me!'];
+    if (state.mode === 'explore') return ['👀 What should I notice?', '🎯 Give a challenge', '📖 Explain this', '🗺️ Guide me'];
+    return ['💡 What should I do?', '🎯 Give a challenge', '📖 Explain this', '🗺️ What\'s next?'];
   }
 
   _intentFor(actionName) {

@@ -3266,11 +3266,16 @@ body.stem-power-active #renderCanvas {
 
 #topic-panel {
   display: grid;
-  grid-template-columns: repeat(3, minmax(150px, 1fr));
-  gap: 10px;
-  max-width: 760px;
-  padding: 14px;
-  background: linear-gradient(180deg, rgba(6, 14, 34, 0.7), rgba(2, 6, 18, 0.66));
+  top: 78px;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+  width: min(650px, calc(100vw - 420px));
+  min-width: 520px;
+  max-width: 650px;
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(8, 16, 36, 0.82), rgba(2, 6, 18, 0.76)),
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent), transparent 86%), transparent 58%);
   border: 1px solid color-mix(in srgb, var(--accent), transparent 72%);
   border-radius: 12px;
   backdrop-filter: blur(18px);
@@ -3392,4 +3397,650 @@ body.stem-power-active #renderCanvas {
 
 @media (min-width: 721px) and (max-width: 980px) {
   .gesture-guide-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ===== SPECTACLE HUD REFINEMENT ===== */
+#fps-counter {
+  top: 14px;
+  right: 18px;
+  color: rgba(216, 236, 255, 0.44);
+  font-size: 0.68rem;
+}
+
+#back-btn,
+#home-btn {
+  top: 12px;
+}
+
+#back-btn {
+  left: 12px;
+}
+
+#home-btn {
+  left: 74px;
+}
+
+.hud-btn,
+.xr-btn,
+.feat-btn,
+#nav-quick-menu button,
+#advanced-controls-panel button {
+  min-width: 0;
+}
+
+#mode-badge {
+  top: 10px;
+  padding: 7px 22px;
+  border-color: rgba(0, 212, 255, 0.36);
+  background: rgba(3, 9, 24, 0.82);
+}
+
+#nav-quick-menu {
+  top: 96px;
+  grid-template-columns: repeat(3, minmax(112px, 1fr));
+  width: min(500px, calc(100vw - 560px));
+  min-width: 430px;
+  padding: 14px;
+  gap: 10px;
+  border-color: rgba(0, 212, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(8, 18, 42, 0.96), rgba(2, 6, 18, 0.94)),
+    radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.16), transparent 62%);
+  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+#nav-quick-menu button {
+  min-height: 48px;
+  border-color: rgba(0, 212, 255, 0.18);
+  background: linear-gradient(180deg, rgba(14, 29, 62, 0.84), rgba(5, 12, 30, 0.8));
+  color: #eaf6ff;
+  font-size: 0.86rem;
+}
+
+#nav-quick-menu span {
+  grid-column: 1 / -1;
+  margin-top: 2px;
+  color: #a8cce7;
+}
+
+#nav-quick-menu .nav-menu-title {
+  margin: 0 0 2px;
+  color: #e8f4ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+#nav-quick-menu .nav-menu-context {
+  color: #9fc4dc;
+  font-size: 0.72rem;
+}
+
+body.nav-menu-open #topic-panel,
+body.nav-menu-open .param-slider-wrap,
+body.nav-menu-open #simulation-hint,
+body.nav-menu-open #mission-banner {
+  opacity: 0.18;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+body.nav-menu-open #topic-panel,
+body.nav-menu-open .param-slider-wrap {
+  transform: translateX(-50%) scale(0.985);
+}
+
+#simulation-status {
+  top: 58px;
+}
+
+#simulation-hint {
+  top: auto;
+  bottom: 106px;
+  background: rgba(4, 9, 24, 0.82);
+  border-color: rgba(255, 107, 53, 0.32);
+}
+
+#feature-toolbar {
+  bottom: 16px;
+  gap: 7px;
+  padding: 8px 14px;
+  max-width: min(690px, calc(100vw - 440px));
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#feature-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.feat-btn {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  font-size: 0.58rem;
+}
+
+.feat-wow {
+  width: 46px;
+}
+
+#learning-mode-badge {
+  left: 16px;
+  bottom: 16px;
+  min-width: 126px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+#tutor-coach {
+  left: 16px;
+  bottom: 90px;
+  width: min(320px, calc(50vw - 34px));
+  max-height: 190px;
+  overflow: hidden;
+}
+
+#tutor-coach p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#xr-btns {
+  right: 166px;
+  bottom: 17px;
+}
+
+.xr-btn {
+  min-width: 42px;
+  padding: 10px 12px;
+}
+
+#game-hud {
+  right: 16px;
+  bottom: 16px;
+  width: 156px;
+}
+
+#multiplayer-panel {
+  right: 78px;
+  top: 10px;
+}
+
+#stem-power-hud,
+#stem-arena-hud,
+#mr-spectacle-hud,
+#campaign-director-mini,
+#competitive-ladder-mini,
+#game-hud,
+#multiplayer-panel,
+#tutor-coach,
+#learning-mode-badge {
+  background:
+    linear-gradient(180deg, rgba(7, 17, 38, 0.9), rgba(3, 7, 20, 0.86));
+  border-radius: 12px;
+}
+
+#stem-power-hud {
+  right: 16px;
+  top: 106px;
+  width: 164px;
+}
+
+#stem-arena-hud {
+  right: 16px;
+  top: 204px;
+  width: 300px;
+}
+
+#mr-spectacle-hud {
+  right: 16px;
+  top: 368px;
+  width: 186px;
+}
+
+#stem-power-toast {
+  top: 58px;
+}
+
+#stem-arena-toast {
+  top: 352px;
+}
+
+#mr-spectacle-toast {
+  top: 448px;
+}
+
+#campaign-director-mini {
+  left: 12px;
+  top: 106px;
+}
+
+#competitive-ladder-mini {
+  left: 12px;
+  top: 252px;
+}
+
+#topic-panel .topic-btn {
+  min-height: 72px;
+  border-radius: 9px;
+}
+
+.param-slider-wrap {
+  bottom: 126px;
+  width: min(584px, calc(100vw - 520px));
+  min-width: 500px;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(8, 18, 42, 0.9), rgba(3, 7, 20, 0.86));
+}
+
+#mission-banner {
+  bottom: 82px;
+}
+
+#manipulation-status {
+  bottom: 158px;
+}
+
+#gesture-hint {
+  bottom: 100px;
+}
+
+@media (max-width: 1280px) {
+  #topic-panel,
+  #feature-toolbar,
+  .param-slider-wrap {
+    width: min(620px, calc(100vw - 300px));
+    min-width: 0;
+  }
+
+  #tutor-coach {
+    width: min(292px, calc(50vw - 28px));
+  }
+}
+
+@media (max-width: 980px) {
+  #topic-panel,
+  #feature-toolbar,
+  .param-slider-wrap,
+  #nav-quick-menu {
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+    min-width: 0;
+  }
+
+  #topic-panel {
+    top: 72px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #nav-quick-menu {
+    top: 76px;
+  }
+
+  #stem-arena-hud,
+  #stem-power-hud,
+  #mr-spectacle-hud {
+    display: none;
+  }
+
+  #xr-btns {
+    right: 12px;
+    bottom: 74px;
+  }
+
+  #tutor-coach {
+    width: calc(100vw - 32px);
+  }
+}
+
+/* ================================================================
+   INTELLIGENT & KID-FRIENDLY UI UPGRADE
+   ================================================================ */
+
+/* --- Feature toolbar: wide pill primary buttons --- */
+.feat-primary {
+  width: auto !important;
+  height: auto !important;
+  border-radius: 20px !important;
+  padding: 9px 14px !important;
+  font-size: 0.82rem !important;
+  color: var(--text-primary) !important;
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.feat-primary:hover {
+  transform: translateY(-3px) scale(1.04) !important;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25) !important;
+}
+.feat-primary.feat-wow {
+  color: var(--glow-gold) !important;
+  border-color: rgba(255, 215, 0, 0.5) !important;
+  background: rgba(255, 215, 0, 0.09) !important;
+}
+.feat-primary.feat-wow:hover {
+  background: rgba(255, 215, 0, 0.2) !important;
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.35) !important;
+}
+
+/* --- Small icon secondary buttons --- */
+.feat-secondary {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  border-radius: 10px !important;
+  opacity: 0.6;
+  align-self: center;
+  flex-shrink: 0;
+}
+.feat-secondary:hover {
+  opacity: 1 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* --- Thin divider between primary and secondary groups --- */
+.feat-divider {
+  display: block;
+  width: 1px !important;
+  height: 28px;
+  background: rgba(150, 210, 255, 0.18);
+  flex-shrink: 0;
+  align-self: center;
+  border: none !important;
+  cursor: default;
+  padding: 0 !important;
+  pointer-events: none;
+  border-radius: 0 !important;
+  opacity: 1;
+}
+
+/* --- Tutorial intro text --- */
+.tutorial-intro {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: -10px 0 18px;
+  line-height: 1.55;
+}
+
+/* --- Gesture icon sizing in tutorial --- */
+.g-icon {
+  font-size: 1.8rem;
+}
+
+/* --- Relocate learning-mode-badge to top-right so it doesn't clash with tutor-btn --- */
+#learning-mode-badge {
+  top: 50px !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: 52px !important;
+  min-width: auto !important;
+  font-size: 0.68rem !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+}
+
+/* --- Tutor btn: prominent friendly bot button above the toolbar --- */
+#tutor-btn {
+  bottom: 86px !important;
+  left: 18px !important;
+  width: 52px !important;
+  height: 52px !important;
+  font-size: 1.4rem !important;
+  border: 2px solid rgba(0, 212, 255, 0.5) !important;
+  background: rgba(8, 18, 46, 0.94) !important;
+  box-shadow: 0 0 28px rgba(0, 212, 255, 0.22), 0 4px 16px rgba(0,0,0,0.4) !important;
+  transition: all 0.25s !important;
+  z-index: 2200 !important;
+}
+#tutor-btn:hover {
+  transform: scale(1.14) !important;
+  box-shadow: 0 0 38px rgba(0, 212, 255, 0.4), 0 4px 20px rgba(0,0,0,0.4) !important;
+}
+
+/* --- Coach panel sits beside the tutor btn, not under it --- */
+#tutor-coach {
+  bottom: 86px !important;
+  left: 82px !important;
+  width: min(300px, calc(100vw - 112px)) !important;
+  border-radius: 16px !important;
+  border-color: rgba(0, 212, 255, 0.38) !important;
+  box-shadow: 0 0 32px rgba(0, 212, 255, 0.16), 0 8px 32px rgba(0,0,0,0.42) !important;
+}
+#tutor-coach p {
+  font-size: 0.84rem !important;
+  line-height: 1.55 !important;
+  -webkit-line-clamp: 4 !important;
+}
+#tutor-coach strong::before {
+  content: "🤖 ";
+}
+
+/* --- Back / Home buttons — bigger and clearer --- */
+#back-btn, #home-btn {
+  font-size: 0.9rem !important;
+  padding: 10px 18px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* --- Smart hint: make it more visible and readable --- */
+#smart-hint {
+  font-size: 0.86rem !important;
+  max-width: 380px !important;
+  padding: 12px 24px !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 32px rgba(255, 215, 0, 0.18) !important;
+}
+
+/* --- Mobile adjustments for new layout --- */
+@media (max-width: 600px) {
+  #learning-mode-badge {
+    right: 8px !important;
+    font-size: 0.62rem !important;
+    padding: 4px 8px !important;
+  }
+  .feat-primary {
+    padding: 8px 11px !important;
+    font-size: 0.76rem !important;
+  }
+  #tutor-coach {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    bottom: 142px !important;
+  }
+  #tutor-btn {
+    bottom: 86px !important;
+  }
+}
+
+/* ================================================================
+   PLAYFUL & INTERACTIVE ANIMATIONS
+   ================================================================ */
+
+/* --- Confetti emoji burst --- */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.5rem;
+  z-index: 9500;
+  animation: confetti-pop 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+  user-select: none;
+}
+@keyframes confetti-pop {
+  0%   { transform: translate(0, 0) scale(0.4) rotate(0deg); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translate(var(--tx, 0), var(--ty, -80px)) scale(0.8) rotate(180deg); opacity: 0; }
+}
+
+/* --- Floating emoji (XP gains, achievements) --- */
+.float-emoji {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.8rem;
+  z-index: 9500;
+  animation: float-up-anim 1.3s ease-out both;
+  will-change: transform, opacity;
+  user-select: none;
+}
+@keyframes float-up-anim {
+  0%   { transform: translateY(0) scale(0.5); opacity: 1; }
+  40%  { transform: translateY(-50px) scale(1.3); opacity: 1; }
+  100% { transform: translateY(-130px) scale(0.9); opacity: 0; }
+}
+
+/* --- Topic button staggered slide-in --- */
+@keyframes topic-slide-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.88); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.topic-btn {
+  animation: topic-slide-in 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.045s);
+}
+
+/* --- Topic button emoji icon --- */
+.topic-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.topic-label {
+  white-space: nowrap;
+}
+.topic-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --- Feature toolbar buttons bounce in on load --- */
+@keyframes feat-bounce-in {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.8); }
+  70%  { transform: translateY(-4px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.feat-btn {
+  animation: feat-bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* Stagger each toolbar button */
+#feature-toolbar .feat-btn:nth-child(1)  { animation-delay: 0.05s; }
+#feature-toolbar .feat-btn:nth-child(2)  { animation-delay: 0.10s; }
+#feature-toolbar .feat-btn:nth-child(3)  { animation-delay: 0.15s; }
+#feature-toolbar .feat-btn:nth-child(4)  { animation-delay: 0.20s; }
+#feature-toolbar .feat-btn:nth-child(5)  { animation-delay: 0.25s; }
+#feature-toolbar .feat-btn:nth-child(7)  { animation-delay: 0.28s; }
+#feature-toolbar .feat-btn:nth-child(8)  { animation-delay: 0.31s; }
+#feature-toolbar .feat-btn:nth-child(9)  { animation-delay: 0.34s; }
+#feature-toolbar .feat-btn:nth-child(10) { animation-delay: 0.37s; }
+#feature-toolbar .feat-btn:nth-child(11) { animation-delay: 0.40s; }
+#feature-toolbar .feat-btn:nth-child(12) { animation-delay: 0.43s; }
+
+/* Wow button pulse glow */
+@keyframes wow-pulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(255,215,0,0.3); }
+  50%       { box-shadow: 0 0 28px rgba(255,215,0,0.7), 0 0 50px rgba(255,215,0,0.2); }
+}
+.feat-wow {
+  animation: feat-bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both 0.10s,
+             wow-pulse 2.4s ease-in-out infinite 0.8s;
+}
+
+/* --- Mission banner slide-in --- */
+@keyframes mission-slide-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+#mission-banner.mission-visible {
+  animation: mission-slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- Play toast bounce --- */
+@keyframes toast-bounce-in {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(-8px); }
+  70%  { transform: translateX(-50%) scale(1.05) translateY(2px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+#play-toast.play-toast-visible {
+  animation: toast-bounce-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- Tutor coach panel slide-in --- */
+@keyframes coach-slide-in {
+  from { opacity: 0; transform: translateX(-12px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+#tutor-coach:not(.hidden) {
+  animation: coach-slide-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- Smart hint bounce up --- */
+@keyframes hint-bounce-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+}
+
+/* --- Back/Home button slide in from top-left --- */
+@keyframes nav-btn-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#back-btn:not(.hidden), #home-btn:not(.hidden) {
+  animation: nav-btn-in 0.3s ease both;
+}
+
+/* --- Subject portals: extra glow on hover (DOM overlay) --- */
+.subject-ui-card:hover {
+  transform: translateY(-6px) scale(1.04);
+}
+
+/* --- Quest/badge pop animation (used by GameLayer) --- */
+@keyframes badge-pop {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.badge-new {
+  animation: badge-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- XP pulse when XP is gained --- */
+@keyframes xp-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); color: #ffd700; }
+  100% { transform: scale(1); }
+}
+.xp-gained {
+  animation: xp-pulse 0.4s ease both;
+}
+
+/* --- Home prompt gentle bounce --- */
+@keyframes home-prompt-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(-5px); }
+}
+#home-prompt {
+  animation: home-prompt-float 3s ease-in-out infinite;
+}
+
+/* --- Sparkle layer dots bigger and more colorful --- */
+.sparkle-layer span {
+  width: 10px;
+  height: 10px;
+}
+
+/* --- Active feat-voice button pulse --- */
+@keyframes voice-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,212,255,0.3); }
+  50%       { box-shadow: 0 0 22px rgba(0,212,255,0.7); border-color: rgba(0,212,255,0.8); }
+}
+#feat-voice.active {
+  animation: voice-pulse 1.2s ease-in-out infinite;
+  color: #00d4ff;
+  border-color: rgba(0,212,255,0.6);
 }

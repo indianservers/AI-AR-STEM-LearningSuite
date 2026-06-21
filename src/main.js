@@ -40,6 +40,7 @@ import { AITutor }             from './features/AITutor.js';
 import { LearningIntelligence } from './features/LearningIntelligence.js';
 import { Multiplayer }         from './features/Multiplayer.js';
 import { TeacherControl }      from './features/TeacherControl.js';
+import { soundFX }             from './features/SoundFX.js';
 
 // Loading progress helper
 const loadBar = document.getElementById('loading-bar');
@@ -159,7 +160,8 @@ async function boot() {
       sceneMgr.resetCamera();
       homeScreen.show(goSubject);
       play.showHomePrompt();
-      play.showMission('Choose a portal and start a tiny science adventure.', '#ffd700');
+      play.showMission('🌟 Choose a portal and start your science adventure!', '#ffd700');
+      soundFX.home();
       hud.showBackHome(false, false);
       smartHint.setContext('home');
       aiTutor.setContext('home');
@@ -178,6 +180,7 @@ async function boot() {
       homeScreen.hide();
       subjectHub.show(subjectId, goTopic);
       play.showSubject(subjectId);
+      soundFX.portal();
       gameLayer?.recordEvent?.('subjectEnter', { subject: subjectId });
       hud.showBackHome(true, true);
       interaction.clearAll();
@@ -213,6 +216,7 @@ async function boot() {
       progress.recordLab(subjectId, topicId);
       gameLayer?.recordEvent?.('topicEnter', { subject: subjectId, topic: topicId });
       play.showTopic(subjectId, topicId);
+      soundFX.labEnter();
       adaptive.record(topicId, 0);
       smartHint.setContext(topicId);
       aiTutor.setContext(topicId);
@@ -399,46 +403,80 @@ async function boot() {
       cameraOverlay?.classList.remove('hidden');
 
       document.getElementById('enable-camera-btn')?.addEventListener('click', async () => {
+        soundFX.portal();
         cameraOverlay?.classList.add('hidden');
         await handTracker.startCamera();
+        play.floatUp('🤲', window.innerWidth / 2, window.innerHeight * 0.5);
       });
       document.getElementById('skip-camera-btn')?.addEventListener('click', () => {
+        soundFX.blip();
         cameraOverlay?.classList.add('hidden');
       });
     }
 
     // Feature toolbar buttons
     document.getElementById('feat-screenshot')?.addEventListener('click', () => {
+      soundFX.blip();
       screenshot.capture(currentTopic || currentSubject || 'Home');
       progress.recordScreenshot();
+      play.floatUp('📷', window.innerWidth / 2, window.innerHeight * 0.6);
     });
-    document.getElementById('feat-dashboard')?.addEventListener('click', () => progress.show());
+    document.getElementById('feat-dashboard')?.addEventListener('click', () => {
+      soundFX.blip();
+      progress.show();
+    });
     document.getElementById('feat-exam')?.addEventListener('click', () => {
+      soundFX.blip();
       gameLayer.recordEvent('quizOpen');
       if (currentTopic) bossChallenge.start();
       else examMode.start(currentSubject || 'math');
     });
     document.getElementById('feat-concept')?.addEventListener('click', () => {
+      soundFX.blip();
       if (currentSubject && !currentTopic) {
         gameLayer.recordEvent('pathOpen');
         pathPlanner.show(currentSubject);
       }
       else conceptGraph.show();
     });
-    document.getElementById('feat-guide')?.addEventListener('click', () => gestureGuide.toggle());
-    document.getElementById('feat-campaign')?.addEventListener('click', () => campaignDirector.show());
-    document.getElementById('feat-ladder')?.addEventListener('click', () => competitiveLadder.show());
-    document.getElementById('feat-wow')?.addEventListener('click', () => stemPowers.triggerWow('toolbar'));
-    document.getElementById('feat-mr')?.addEventListener('click', () => mrSpectacle.toggle());
+    document.getElementById('feat-guide')?.addEventListener('click', () => {
+      soundFX.blip();
+      gestureGuide.toggle();
+    });
+    document.getElementById('feat-campaign')?.addEventListener('click', () => {
+      soundFX.blip();
+      campaignDirector.show();
+    });
+    document.getElementById('feat-ladder')?.addEventListener('click', () => {
+      soundFX.blip();
+      competitiveLadder.show();
+    });
+    document.getElementById('feat-wow')?.addEventListener('click', () => {
+      soundFX.boom();
+      stemPowers.triggerWow('toolbar');
+      play.confetti(window.innerWidth / 2, window.innerHeight * 0.5);
+    });
+    document.getElementById('feat-mr')?.addEventListener('click', () => {
+      soundFX.blip();
+      mrSpectacle.toggle();
+    });
     document.getElementById('feat-airdraw')?.addEventListener('click', () => {
+      soundFX.pop();
       if (airDrawing._active) airDrawing.deactivate();
       else airDrawing.activate();
     });
     let voiceActive = false;
     document.getElementById('feat-voice')?.addEventListener('click', (e) => {
       voiceActive = !voiceActive;
-      if (voiceActive) { voice.start(); e.target.style.background = 'rgba(0,212,255,0.25)'; }
-      else { voice.stop(); e.target.style.background = ''; }
+      soundFX.blip();
+      if (voiceActive) {
+        voice.start();
+        e.target.classList.add('active');
+        play.floatUp('🎤', window.innerWidth / 2, window.innerHeight * 0.6);
+      } else {
+        voice.stop();
+        e.target.classList.remove('active');
+      }
     });
 
     // Teacher command handler
@@ -461,10 +499,12 @@ async function boot() {
     // Tutorial
     const tutBtn = document.getElementById('tutorial-close-btn');
     tutBtn?.addEventListener('click', () => {
+      soundFX.chime();
       document.getElementById('tutorial-overlay')?.classList.add('hidden');
       homeScreen.show(goSubject);
       play.showHomePrompt();
-      play.showMission('Choose a portal and start a tiny science adventure.', '#ffd700');
+      play.showMission('🌟 Choose a portal and start your science adventure!', '#ffd700');
+      play.celebrate(window.innerWidth / 2, window.innerHeight * 0.5);
     });
 
     // Show tutorial on first visit (or go straight home after 2s)

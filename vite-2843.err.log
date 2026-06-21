@@ -1,0 +1,7 @@
+[2m8:33:26 am[22m [33m[1m[vite][22m[39m Failed to load source map for C:/Indian Servers/AR-AI-Interactive MPC/node_modules/@mediapipe/tasks-vision/vision_bundle.mjs.
+Error: An error occurred while trying to read the map file at vision_bundle_mjs.js.map
+Error: ENOENT: no such file or directory, open 'C:\Indian Servers\AR-AI-Interactive MPC\node_modules\@mediapipe\tasks-vision\vision_bundle_mjs.js.map'
+    at async open (node:internal/fs/promises:634:25)
+    at async Object.readFile (node:internal/fs/promises:1236:14)
+    at async extractSourcemapFromFile (file:///C:/Indian%20Servers/AR-AI-Interactive%20MPC/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:21002:53)
+    at async loadAndTransform (file:///C:/Indian%20Servers/AR-AI-Interactive%20MPC/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51941:27)

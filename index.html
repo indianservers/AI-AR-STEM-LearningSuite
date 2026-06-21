@@ -38,10 +38,10 @@
 
   <div id="camera-overlay" class="hidden">
     <div class="overlay-card">
-      <div class="overlay-icon">HAND</div>
-      <h2>Hand Tracking</h2>
-      <p>Use your hands to grab planets, poke atoms, and spin ideas around. No video is stored or sent anywhere.</p>
-      <button id="enable-camera-btn" class="btn-primary">Start Hand Magic</button>
+      <div class="overlay-icon">🤲</div>
+      <h2>Hand Tracking Magic!</h2>
+      <p>Use your hands to grab planets, poke atoms, and spin ideas around. It's like having superpowers! No video is stored or sent anywhere.</p>
+      <button id="enable-camera-btn" class="btn-primary">✨ Start Hand Magic!</button>
       <button id="skip-camera-btn" class="btn-secondary">Use Mouse Instead</button>
     </div>
   </div>
@@ -50,42 +50,44 @@
   <video id="webcam" autoplay playsinline muted></video>
 
   <div id="hud-layer">
-    <div id="mode-badge">DESKTOP</div>
+    <div id="mode-badge">🖥️ Desktop</div>
     <div id="gesture-hint"></div>
     <div id="fps-counter"></div>
-    <div id="back-btn" class="hud-btn hidden">&lt; Back</div>
-    <div id="home-btn" class="hud-btn hidden">Home</div>
+    <div id="back-btn" class="hud-btn hidden">⬅ Back</div>
+    <div id="home-btn" class="hud-btn hidden">🏠 Home</div>
     <div id="xr-btns">
       <button id="vr-btn" class="xr-btn" title="Enter VR">VR</button>
       <button id="ar-btn" class="xr-btn" title="Enter AR">AR</button>
     </div>
     <div id="feature-toolbar">
-      <button id="feat-screenshot" class="feat-btn" title="Screenshot">CAM</button>
-      <button id="feat-dashboard"  class="feat-btn" title="Progress Dashboard">LOG</button>
-      <button id="feat-exam"       class="feat-btn" title="Exam Mode">QZ</button>
-      <button id="feat-wow"        class="feat-btn feat-wow" title="Trigger STEM Power">WOW</button>
-      <button id="feat-mr"         class="feat-btn" title="MR Spectacle Mode">MR</button>
-      <button id="feat-campaign"   class="feat-btn" title="Campaign Director">DIR</button>
-      <button id="feat-ladder"     class="feat-btn" title="Competitive Ladder">RANK</button>
-      <button id="feat-concept"    class="feat-btn" title="Concept Map">MAP</button>
-      <button id="feat-airdraw"    class="feat-btn" title="Air Drawing">DRW</button>
-      <button id="feat-voice"      class="feat-btn" title="Voice Commands">MIC</button>
-      <button id="feat-guide"      class="feat-btn" title="Gesture Guide">?</button>
+      <button id="feat-guide"      class="feat-btn feat-primary" title="Help &amp; Gestures">❓ <span>Help</span></button>
+      <button id="feat-wow"        class="feat-btn feat-primary feat-wow" title="STEM Power!">⚡ <span>Wow!</span></button>
+      <button id="feat-exam"       class="feat-btn feat-primary" title="Quiz me!">🎯 <span>Quiz</span></button>
+      <button id="feat-voice"      class="feat-btn feat-primary" title="Talk to the app">🎤 <span>Talk</span></button>
+      <button id="feat-screenshot" class="feat-btn feat-primary" title="Take a screenshot">📷 <span>Photo</span></button>
+      <div class="feat-divider"></div>
+      <button id="feat-dashboard"  class="feat-btn feat-secondary" title="Progress &amp; Stats">📊</button>
+      <button id="feat-concept"    class="feat-btn feat-secondary" title="Topic Map">🔗</button>
+      <button id="feat-airdraw"    class="feat-btn feat-secondary" title="Draw in Air">✏️</button>
+      <button id="feat-mr"         class="feat-btn feat-secondary" title="Mixed Reality">MR</button>
+      <button id="feat-campaign"   class="feat-btn feat-secondary" title="Story Mode">🗺️</button>
+      <button id="feat-ladder"     class="feat-btn feat-secondary" title="Leaderboard">🏆</button>
     </div>
   </div>
 
   <div id="tutorial-overlay" class="hidden">
     <div class="tutorial-card">
-      <h3>Hand Gestures</h3>
+      <h3>✋ Magic Hand Controls</h3>
+      <p class="tutorial-intro">Use your hands like magic — no controller needed! 🌟</p>
       <div class="gesture-grid">
-        <div class="gesture-item"><span class="g-icon">PIN</span><span>Pinch = Grab</span></div>
-        <div class="gesture-item"><span class="g-icon">PALM</span><span>Palm = Release</span></div>
-        <div class="gesture-item"><span class="g-icon">PT</span><span>Point = Select</span></div>
-        <div class="gesture-item"><span class="g-icon">FIST</span><span>Fist = Menu</span></div>
-        <div class="gesture-item"><span class="g-icon">2H</span><span>Two-hand Spread = Scale</span></div>
-        <div class="gesture-item"><span class="g-icon">ROT</span><span>Two-hand Rotate = Spin</span></div>
+        <div class="gesture-item"><span class="g-icon">🤏</span><span>Pinch to Grab things</span></div>
+        <div class="gesture-item"><span class="g-icon">✋</span><span>Open hand to Release</span></div>
+        <div class="gesture-item"><span class="g-icon">☝️</span><span>Point to Select</span></div>
+        <div class="gesture-item"><span class="g-icon">✊</span><span>Fist to go Back</span></div>
+        <div class="gesture-item"><span class="g-icon">🤲</span><span>Both hands to Resize</span></div>
+        <div class="gesture-item"><span class="g-icon">🔄</span><span>Twist hands to Spin</span></div>
       </div>
-      <button id="tutorial-close-btn" class="btn-primary">Launch the Lab</button>
+      <button id="tutorial-close-btn" class="btn-primary">🚀 Let's Go!</button>
     </div>
   </div>
 

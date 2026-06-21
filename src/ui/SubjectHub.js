@@ -1,40 +1,40 @@
 export const SUBJECT_TOPICS = {
   math: [
-    { id: 'function3d', label: '3D Functions', icon: 'F3D' },
-    { id: 'graph2d',    label: '2D Graphs', icon: 'G2D' },
-    { id: 'geometry',   label: 'Geometry Lab', icon: 'GEO' },
-    { id: 'calculus',   label: 'Calculus', icon: 'CAL' },
-    { id: 'vectors',    label: 'Vector Lab', icon: 'VEC' },
-    { id: 'trig',       label: 'Trigonometry', icon: 'TRI' },
-    { id: 'complex',    label: 'Complex Plane', icon: 'CPL' },
-    { id: 'linearalg',  label: 'Linear Algebra', icon: 'LIN' },
-    { id: 'fractal',    label: 'Fractal Explorer', icon: 'FRA' },
+    { id: 'function3d', label: '3D Functions',   icon: '📈' },
+    { id: 'graph2d',    label: '2D Graphs',       icon: '📊' },
+    { id: 'geometry',   label: 'Geometry',         icon: '📐' },
+    { id: 'calculus',   label: 'Calculus',         icon: '∫' },
+    { id: 'vectors',    label: 'Vectors',           icon: '➡️' },
+    { id: 'trig',       label: 'Trigonometry',     icon: '〽️' },
+    { id: 'complex',    label: 'Complex Plane',    icon: '🔢' },
+    { id: 'linearalg',  label: 'Linear Algebra',   icon: '🔲' },
+    { id: 'fractal',    label: 'Fractals',          icon: '🌀' },
   ],
   physics: [
-    { id: 'newton',     label: "Newton's Laws", icon: 'NEW' },
-    { id: 'gravity',    label: 'Gravity & Orbits', icon: 'ORB' },
-    { id: 'projectile', label: 'Projectile Motion', icon: 'PRJ' },
-    { id: 'waves',      label: 'Wave Lab', icon: 'WAV' },
-    { id: 'optics',     label: 'Optics Lab', icon: 'OPT' },
-    { id: 'pendulum',   label: 'Pendulum Lab', icon: 'PEN' },
-    { id: 'emfield',    label: 'EM Fields', icon: 'EMF' },
-    { id: 'fluid',      label: 'Fluid Simulation', icon: 'FLU' },
-    { id: 'relativity', label: 'Relativity', icon: 'REL' },
-    { id: 'circuit',    label: 'Circuit Builder', icon: 'CIR' },
-    { id: 'thermal',    label: 'Thermal Diffusion', icon: 'THM' },
+    { id: 'newton',     label: "Newton's Laws",    icon: '🍎' },
+    { id: 'gravity',    label: 'Gravity & Orbits',  icon: '🪐' },
+    { id: 'projectile', label: 'Projectile',        icon: '🚀' },
+    { id: 'waves',      label: 'Waves',             icon: '🌊' },
+    { id: 'optics',     label: 'Optics',            icon: '🔭' },
+    { id: 'pendulum',   label: 'Pendulum',          icon: '⏰' },
+    { id: 'emfield',    label: 'EM Fields',         icon: '⚡' },
+    { id: 'fluid',      label: 'Fluids',            icon: '💧' },
+    { id: 'relativity', label: 'Relativity',        icon: '🌌' },
+    { id: 'circuit',    label: 'Circuits',          icon: '💡' },
+    { id: 'thermal',    label: 'Thermal',           icon: '🌡️' },
   ],
   chem: [
-    { id: 'periodic',   label: 'Periodic Table', icon: 'PER' },
-    { id: 'molecules',  label: 'Molecule Viewer', icon: 'MOL' },
-    { id: 'atomic',     label: 'Atomic Model', icon: 'ATM' },
-    { id: 'bonding',    label: 'Chemical Bonding', icon: 'BND' },
-    { id: 'orbitals',   label: 'Orbital Viewer', icon: 'ORB' },
-    { id: 'crystal',    label: 'Crystal Lattice', icon: 'LAT' },
-    { id: 'reactions',  label: 'Reactions', icon: 'RXN' },
-    { id: 'rxnEnergy',  label: 'Reaction Energy', icon: 'NRG' },
-    { id: 'spectro',    label: 'Spectroscopy', icon: 'SPC' },
-    { id: 'protein',    label: 'Protein Viewer', icon: 'PRO' },
-    { id: 'titration',  label: 'Titration Sim', icon: 'TIT' },
+    { id: 'periodic',   label: 'Periodic Table',   icon: '🧪' },
+    { id: 'molecules',  label: 'Molecules',         icon: '🔬' },
+    { id: 'atomic',     label: 'Atomic Model',      icon: '⚛️' },
+    { id: 'bonding',    label: 'Bonding',           icon: '🔗' },
+    { id: 'orbitals',   label: 'Orbitals',          icon: '☁️' },
+    { id: 'crystal',    label: 'Crystal Lattice',   icon: '💎' },
+    { id: 'reactions',  label: 'Reactions',         icon: '🔥' },
+    { id: 'rxnEnergy',  label: 'Reaction Energy',   icon: '⚡' },
+    { id: 'spectro',    label: 'Spectroscopy',      icon: '🌈' },
+    { id: 'protein',    label: 'Proteins',          icon: '🧬' },
+    { id: 'titration',  label: 'Titration',         icon: '💧' },
   ],
 };
 
@@ -76,11 +76,12 @@ export class SubjectHub {
     panel.id = 'topic-panel';
     panel.style.setProperty('--accent', accent);
 
-    topics.forEach(topic => {
+    topics.forEach((topic, index) => {
       const btn = document.createElement('button');
       btn.className = `topic-btn ${typeClass}`;
-      btn.textContent = topic.label;
-      btn.dataset.icon = topic.icon;
+      btn.style.setProperty('--i', index);
+      btn.innerHTML = `<span class="topic-icon">${topic.icon}</span><span class="topic-label">${topic.label}</span>`;
+      btn.dataset.topicId = topic.id;
       btn.addEventListener('click', () => {
         panel.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');

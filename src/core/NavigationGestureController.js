@@ -47,6 +47,7 @@ export class NavigationGestureController {
     if (this._quickMenu) {
       this._quickMenu.remove();
       this._quickMenu = null;
+      document.body.classList.remove('nav-menu-open');
       return;
     }
 
@@ -54,16 +55,17 @@ export class NavigationGestureController {
     const menu = document.createElement('div');
     menu.id = 'nav-quick-menu';
     menu.innerHTML = `
+      <span class="nav-menu-title">Command Menu</span>
       <button type="button" data-cmd="home">Home</button>
       <button type="button" data-cmd="back">Back</button>
       <button type="button" data-cmd="guide">Guide</button>
       <button type="button" data-cmd="explore">${this.mode === 'explore' ? 'Learn' : 'Explore'}</button>
-        <button type="button" data-cmd="draw">Draw</button>
-        <button type="button" data-cmd="dashboard">Progress</button>
-        <button type="button" data-cmd="path">Path</button>
-        <button type="button" data-cmd="loadout">Loadout</button>
-        <button type="button" data-cmd="avatar">Avatar</button>
-      <span>${state.currentTopic ? 'Lab navigation' : state.currentSubject ? 'Subject navigation' : 'Home navigation'}</span>
+      <button type="button" data-cmd="draw">Draw</button>
+      <button type="button" data-cmd="dashboard">Progress</button>
+      <button type="button" data-cmd="path">Path</button>
+      <button type="button" data-cmd="loadout">Loadout</button>
+      <button type="button" data-cmd="avatar">Avatar</button>
+      <span class="nav-menu-context">${state.currentTopic ? 'Lab navigation' : state.currentSubject ? 'Subject navigation' : 'Home navigation'}</span>
     `;
     menu.addEventListener('click', (event) => {
       const cmd = event.target?.dataset?.cmd;
@@ -72,6 +74,7 @@ export class NavigationGestureController {
       this.showQuickMenu();
     });
     document.body.appendChild(menu);
+    document.body.classList.add('nav-menu-open');
     this._quickMenu = menu;
   }
 
@@ -119,6 +122,7 @@ export class NavigationGestureController {
   hideOverlays() {
     this._quickMenu?.remove();
     this._quickMenu = null;
+    document.body.classList.remove('nav-menu-open');
     this._advancedPanel?.remove();
     this._advancedPanel = null;
     this.options.hideOverlays?.();
