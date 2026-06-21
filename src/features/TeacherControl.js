@@ -1,9 +1,8 @@
-// Feature 25: Teacher Remote Control — QR code pairing + broadcast
-// Generates a pairing code and QR code. Teacher opens /teacher.html on a second device.
+// Feature 25: Teacher Remote Control - QR code pairing + broadcast.
+// Generates a pairing code. Teacher opens the shared room on a second device.
 export class TeacherControl {
   constructor(multiplayer) {
     this._mp = multiplayer;
-    this._isTeacher = false;
     this._el = null;
     this._buildUI();
   }
@@ -18,13 +17,17 @@ export class TeacherControl {
       color:gold; font-size:0.75rem; cursor:pointer; z-index:2000;
       backdrop-filter:blur(8px); pointer-events:all; font-weight:700;
     `;
-    btn.textContent = '👨‍🏫 Teacher';
+    btn.textContent = 'Teacher';
     btn.onclick = () => this._showPanel();
     document.body.appendChild(btn);
   }
 
   _showPanel() {
-    if (this._el) { this._el.remove(); this._el = null; return; }
+    if (this._el) {
+      this._el.remove();
+      this._el = null;
+      return;
+    }
 
     const panel = document.createElement('div');
     panel.style.cssText = `
@@ -35,10 +38,9 @@ export class TeacherControl {
     `;
 
     const roomCode = 'CL-' + Math.random().toString(36).slice(2, 7).toUpperCase();
-    const roomUrl = window.location.origin + '?room=' + roomCode;
 
     panel.innerHTML = `
-      <div style="color:gold;font-size:0.9rem;font-weight:700;margin-bottom:12px;">👨‍🏫 Teacher Controls</div>
+      <div style="color:gold;font-size:0.9rem;font-weight:700;margin-bottom:12px;">Teacher Controls</div>
       <div style="color:#7ba3cc;font-size:0.75rem;margin-bottom:8px;">Room Code</div>
       <div style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:10px;text-align:center;margin-bottom:14px;">
         <div style="color:gold;font-size:1.4rem;font-weight:700;letter-spacing:0.15em;">${roomCode}</div>
@@ -46,7 +48,6 @@ export class TeacherControl {
       </div>
     `;
 
-    // QR-code-like placeholder (requires a QR library in production)
     const qrPlaceholder = document.createElement('div');
     qrPlaceholder.style.cssText = `
       background:#fff; width:80px; height:80px; margin:0 auto 14px;
@@ -57,12 +58,13 @@ export class TeacherControl {
     panel.appendChild(qrPlaceholder);
 
     const cmds = [
-      { label: '📐 Open Math', cmd: 'nav:math' },
-      { label: '⚡ Open Physics', cmd: 'nav:physics' },
-      { label: '⚗ Open Chemistry', cmd: 'nav:chem' },
-      { label: '📊 Show Progress', cmd: 'dashboard' },
-      { label: '📝 Start Exam', cmd: 'exam' },
-      { label: '🔄 Reset All', cmd: 'reset' },
+      { label: 'Open Math', cmd: 'nav:math' },
+      { label: 'Open Physics', cmd: 'nav:physics' },
+      { label: 'Open Chemistry', cmd: 'nav:chem' },
+      { label: 'Open Astro', cmd: 'nav:astro' },
+      { label: 'Show Progress', cmd: 'dashboard' },
+      { label: 'Start Exam', cmd: 'exam' },
+      { label: 'Reset All', cmd: 'reset' },
     ];
 
     const btnGrid = document.createElement('div');
@@ -80,12 +82,15 @@ export class TeacherControl {
     panel.appendChild(btnGrid);
 
     const closeBtn = document.createElement('button');
-    closeBtn.textContent = '✕ Close';
+    closeBtn.textContent = 'Close';
     closeBtn.style.cssText = `
       margin-top:14px;background:transparent;border:1px solid rgba(255,255,255,0.15);
       border-radius:8px;padding:8px;font-size:0.78rem;color:#7ba3cc;cursor:pointer;width:100%;
     `;
-    closeBtn.onclick = () => { panel.remove(); this._el = null; };
+    closeBtn.onclick = () => {
+      panel.remove();
+      this._el = null;
+    };
     panel.appendChild(closeBtn);
 
     document.body.appendChild(panel);
@@ -96,14 +101,13 @@ export class TeacherControl {
     if (this._mp) {
       this._mp._send({ type: 'teacher_cmd', cmd, room: this._mp._room });
     }
-    // Flash confirmation
     const toast = document.createElement('div');
     toast.style.cssText = `
       position:fixed;bottom:280px;left:70px;background:rgba(255,215,0,0.15);
       border:1px solid gold;border-radius:8px;padding:6px 14px;font-size:0.78rem;
       color:gold;z-index:9999;pointer-events:none;
     `;
-    toast.textContent = '✓ Sent: ' + cmd;
+    toast.textContent = 'Sent: ' + cmd;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 1500);
   }

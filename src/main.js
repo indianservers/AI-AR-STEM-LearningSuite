@@ -18,6 +18,7 @@ import { InspectPanel }        from './ui/InspectPanel.js';
 import { MathModule }          from './modules/math/MathModule.js';
 import { PhysicsModule }       from './modules/physics/PhysicsModule.js';
 import { ChemModule }          from './modules/chemistry/ChemModule.js';
+import { AstroPhysicsModule }  from './astro/AstroPhysicsModule.js';
 import { VoiceCommands }       from './features/VoiceCommands.js';
 import { ScreenshotShare }     from './features/ScreenshotShare.js';
 import { ProgressDashboard }   from './features/ProgressDashboard.js';
@@ -60,7 +61,7 @@ function setProgress(pct, msg) {
 }
 
 // App state
-let currentSubject = null;   // 'math' | 'physics' | 'chem'
+let currentSubject = null;   // 'math' | 'physics' | 'chem' | 'astro'
 let currentTopic   = null;
 function currentGestureContext() {
   return currentTopic || currentSubject || 'home';
@@ -101,6 +102,9 @@ async function boot() {
     const physMod  = new PhysicsModule(scene, interaction, env);
     setProgress(70, 'Loading Chemistry module...');
     const chemMod  = new ChemModule(scene, interaction, env);
+    setProgress(72, 'Loading Astro Physics module...');
+    const astroMod = new AstroPhysicsModule(scene, interaction, env, sceneMgr, xrManager, gestureEngine);
+    astroMod.setLaunchHandler(topicId => goTopic('astro', topicId));
 
     // 6. UI
     setProgress(75, 'Building UI...');
@@ -154,6 +158,7 @@ async function boot() {
       if (prev === 'math')    mathMod.hide();
       if (prev === 'physics') physMod.hide();
       if (prev === 'chem')    chemMod.hide();
+      if (prev === 'astro')   astroMod.hide();
       subjectHub.hide();
       simControl.clearActiveLab();
       interaction.clearAll();
@@ -176,9 +181,17 @@ async function boot() {
     }
 
     function goSubject(subjectId) {
+      const prev = currentSubject;
+      if (prev === 'math')    mathMod.hide();
+      if (prev === 'physics') physMod.hide();
+      if (prev === 'chem')    chemMod.hide();
+      if (prev === 'astro')   astroMod.hide();
+      currentTopic = null;
       currentSubject = subjectId;
       homeScreen.hide();
-      subjectHub.show(subjectId, goTopic);
+      subjectHub.hide();
+      if (subjectId === 'astro') astroMod.showHub();
+      else subjectHub.show(subjectId, goTopic);
       play.showSubject(subjectId);
       soundFX.portal();
       gameLayer?.recordEvent?.('subjectEnter', { subject: subjectId });
@@ -195,7 +208,7 @@ async function boot() {
       arenaCombat?.syncContext?.();
       mrSpectacle?.syncContext?.();
       pathPlanner.syncContext({ currentSubject, currentTopic });
-      pathPlanner.coachNext(subjectId);
+      if (subjectId !== 'astro') pathPlanner.coachNext(subjectId);
       gestureEngine.setGestureContext(subjectId);
     }
 
@@ -206,10 +219,12 @@ async function boot() {
       if (currentSubject === 'math')    { if (prev) mathMod.hide(); interaction.clearAll(); mathMod.showTopic(topicId); }
       if (currentSubject === 'physics') { if (prev) physMod.hide(); interaction.clearAll(); physMod.showTopic(topicId); }
       if (currentSubject === 'chem')    { if (prev) chemMod.hide(); interaction.clearAll(); chemMod.showTopic(topicId); }
+      if (currentSubject === 'astro')   { if (prev) astroMod.hide(); interaction.clearAll(); astroMod.showTopic(topicId); }
       const activeLab =
         currentSubject === 'math' ? mathMod.getActiveLab() :
         currentSubject === 'physics' ? physMod.getActiveLab() :
         currentSubject === 'chem' ? chemMod.getActiveLab() :
+        currentSubject === 'astro' ? astroMod.getActiveLab() :
         null;
       simControl.setActiveLab(activeLab, { subject: subjectId, topic: topicId });
 
@@ -236,10 +251,12 @@ async function boot() {
         if (currentSubject === 'math')    mathMod.hide();
         if (currentSubject === 'physics') physMod.hide();
         if (currentSubject === 'chem')    chemMod.hide();
+        if (currentSubject === 'astro')   astroMod.hide();
         currentTopic = null;
         simControl.clearActiveLab();
         interaction.clearAll();
-        subjectHub.show(currentSubject, goTopic);
+        if (currentSubject === 'astro') astroMod.showHub();
+        else subjectHub.show(currentSubject, goTopic);
         smartHint.setContext(currentSubject);
         aiTutor.setContext(currentSubject);
         gestureEngine.setGestureContext(currentSubject);
@@ -365,6 +382,7 @@ async function boot() {
       else if (cmd === 'nav:math')  { goSubject('math'); }
       else if (cmd === 'nav:physics'){ goSubject('physics'); }
       else if (cmd === 'nav:chem')  { goSubject('chem'); }
+      else if (cmd === 'nav:astro') { goSubject('astro'); }
       else if (cmd === 'dashboard') { progress.show(); }
       else if (cmd === 'path')      { gameLayer.recordEvent('pathOpen'); pathPlanner.show(currentSubject); }
       else if (cmd === 'loadout')   { gameLayer.showLoadout(); }
@@ -484,6 +502,7 @@ async function boot() {
       if (cmd === 'nav:math')    goSubject('math');
       if (cmd === 'nav:physics') goSubject('physics');
       if (cmd === 'nav:chem')    goSubject('chem');
+      if (cmd === 'nav:astro')   goSubject('astro');
       if (cmd === 'dashboard')   progress.show();
       if (cmd === 'path')        { gameLayer.recordEvent('pathOpen'); pathPlanner.show(currentSubject); }
       if (cmd === 'loadout')     gameLayer.showLoadout();
@@ -550,6 +569,7 @@ async function boot() {
       if (currentSubject === 'math' && simControl.shouldUpdate(mathMod.getActiveLab()))    mathMod.update(deltaTime);
       if (currentSubject === 'physics' && simControl.shouldUpdate(physMod.getActiveLab())) physMod.update(deltaTime);
       if (currentSubject === 'chem' && simControl.shouldUpdate(chemMod.getActiveLab()))    chemMod.update(deltaTime);
+      if (currentSubject === 'astro' && simControl.shouldUpdate(astroMod.getActiveLab()))  astroMod.update(deltaTime);
     });
 
     // Fade out loading screen

@@ -5,7 +5,7 @@ export const SUBJECT_TOPICS = {
     { id: 'geometry',   label: 'Geometry',         icon: '📐' },
     { id: 'calculus',   label: 'Calculus',         icon: '∫' },
     { id: 'vectors',    label: 'Vectors',           icon: '➡️' },
-    { id: 'trig',       label: 'Trigonometry',     icon: '〽️' },
+    { id: 'trig',       label: 'Trigonometry',     icon: '〰️' },
     { id: 'complex',    label: 'Complex Plane',    icon: '🔢' },
     { id: 'linearalg',  label: 'Linear Algebra',   icon: '🔲' },
     { id: 'fractal',    label: 'Fractals',          icon: '🌀' },
@@ -36,12 +36,21 @@ export const SUBJECT_TOPICS = {
     { id: 'protein',    label: 'Proteins',          icon: '🧬' },
     { id: 'titration',  label: 'Titration',         icon: '💧' },
   ],
+  astro: [
+    { id: 'solar-system',      label: 'Solar System',   icon: 'SS' },
+    { id: 'ar-sky-map',        label: 'AR Sky Map',      icon: 'AR' },
+    { id: 'telescope',         label: 'Telescope',       icon: 'TS' },
+    { id: 'earth-moon-sun',    label: 'Earth Moon Sun',  icon: 'EMS' },
+    { id: 'galaxy-deep-space', label: 'Galaxy',          icon: 'GX' },
+    { id: 'astro-missions',    label: 'Missions',        icon: 'MS' },
+  ],
 };
 
 export const SUBJECT_ACCENT = {
   math: '#00d4ff',
   physics: '#ff6b35',
   chem: '#7fff7f',
+  astro: '#8de6ff',
 };
 
 export class SubjectHub {
@@ -70,7 +79,7 @@ export class SubjectHub {
 
     const topics = SUBJECT_TOPICS[subjectId] || [];
     const accent = SUBJECT_ACCENT[subjectId] || '#00d4ff';
-    const typeClass = subjectId === 'physics' ? 'physics-topic' : subjectId === 'chem' ? 'chem-topic' : '';
+    const typeClass = subjectId === 'physics' ? 'physics-topic' : subjectId === 'chem' ? 'chem-topic' : subjectId === 'astro' ? 'astro-topic' : '';
 
     const panel = document.createElement('div');
     panel.id = 'topic-panel';

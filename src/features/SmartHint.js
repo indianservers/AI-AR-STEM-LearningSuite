@@ -1,60 +1,71 @@
 const HINTS = {
   home: [
-    '🌟 Pinch a glowing portal to jump in!',
-    '🔭 Try all three subjects to unlock a secret explorer badge!',
-    '☝️ Point at a portal and hold for 1 second to enter hands-free!',
-    '💡 Click any glowing orb to start your science adventure!',
+    'Click any glowing portal to start your science adventure.',
+    'Try all four learning areas to compare how each subject thinks.',
+    'Point at a portal and hold briefly to enter hands-free when gestures are active.',
   ],
   math: [
-    '📐 Try 3D Functions — make equations fly through space!',
-    '➕ Vector Lab: make arrows point in different directions!',
-    '🌀 Fractals zoom forever — look for the weird edge!',
-    '📊 Geometry Lab: build shapes and measure angles!',
+    'Try 3D Functions and make equations fly through space.',
+    'Vector Lab: make arrows point in different directions.',
+    'Fractals zoom forever; look for the interesting boundary.',
+    'Geometry Lab: build shapes and measure angles.',
   ],
   physics: [
-    '🪐 Gravity Lab: nudge a planet and see what happens!',
-    '⏰ Pendulum Lab: drop from way up high for maximum swing!',
-    '🌊 Wave Lab: find the quiet spots between loud waves!',
-    '⚡ Circuits: close the loop to light up!',
+    'Gravity Lab: nudge a planet and see what happens.',
+    'Pendulum Lab: drop from high up for maximum swing.',
+    'Wave Lab: find quiet spots between loud waves.',
+    'Circuits: close the loop to light up.',
   ],
   chem: [
-    '⚗️ Pick any element tile and discover its secrets!',
-    '🔬 Molecule Viewer: spin it slowly to see the shape!',
-    '☁️ Orbitals are fuzzy probability clouds — not tiny racetrack!',
-    '🧪 Reactions: watch atoms swap partners!',
+    'Pick any element tile and discover its pattern.',
+    'Molecule Viewer: spin it slowly to see the shape.',
+    'Orbitals are fuzzy probability clouds, not tiny racetracks.',
+    'Reactions: watch atoms swap partners.',
   ],
-  function3d: ['🏄 Try a saddle surface and find the balancing point!', '📈 Change the equation and watch the surface reshape!'],
-  pendulum: ['⚡ Drag the bob super high — more height = more energy!', '🔁 Energy swaps between potential and kinetic as it swings!'],
-  gravity: ['🌌 Move a planet a little, then hold your breath to see the orbit!', '🚀 Add a second planet and watch them pull each other!'],
-  periodic: ['🧪 Pick one element you know, then find one you\'ve never heard of!', '⬆️ Elements in the same column share similar properties!'],
-  molecules: ['🔄 Spin the molecule — can you spot the symmetry?', '🔗 Each stick is a chemical bond!'],
-  waves: ['🤫 Move the sources until you find a perfectly quiet spot!', '📡 Two waves can cancel each other out!'],
-  circuit: ['💡 Close the loop first — electricity needs a complete path!', '🔋 Add more batteries to make it brighter!'],
-  fractal: ['🔍 Zoom into the boundary — that\'s where the wild stuff lives!', '♾️ Fractals look similar at every zoom level!'],
-  titration: ['💧 Drip super slowly near the steep part of the pH curve!'],
-  atoms: ['⚛️ The number of protons tells you which element it is!'],
-  orbitals: ['☁️ Brighter areas = more likely to find an electron!'],
-  reactions: ['🔥 Watch for energy arrows — they show if energy is released!'],
-  crystal: ['💎 Every atom is in a perfect repeating pattern!'],
-  vectors: ['➡️ Arrows show direction AND size — longer = stronger!'],
-  trig: ['📐 The unit circle is the secret behind all waves!'],
-  complex: ['🔢 i is the square root of -1 — imaginary but super useful!'],
-  linearalg: ['📦 A matrix is just a grid of numbers that transforms space!'],
-  calculus: ['📉 The slope of a curve at any point is the derivative!'],
-  newton: ['🏃 Force = mass × acceleration — push harder, move faster!'],
-  projectile: ['🎯 Angle + speed decide where it lands!'],
-  optics: ['🌈 Light bends when it enters glass or water!'],
-  emfield: ['🧲 Opposite charges attract, same charges repel!'],
-  fluid: ['🌊 Fluids always flow from high pressure to low pressure!'],
-  relativity: ['⚡ Nothing travels faster than light!'],
-  thermal: ['🌡️ Heat always flows from hot to cold!'],
-  quantum: ['🎲 Quantum particles can be in two states at once!'],
-  blackhole: ['🕳️ Light can\'t escape from a black hole!'],
-  neuron: ['🧠 Neurons fire electrical signals to each other!'],
-  kepler: ['🪐 Planets travel in ellipses, not circles!'],
-  smoke: ['💨 Smoke follows the math of fluid dynamics!'],
-  graph2d: ['📈 Try dragging the graph to explore different regions!'],
-  geometry: ['📐 Try measuring angles by clicking two connected lines!'],
+  astro: [
+    'Open Solar System Explorer and compare inner planets with gas giants.',
+    'Try the telescope zoom slider and watch the field of view change.',
+    'Use Earth-Moon-Sun to predict where phases and eclipses will fit later.',
+    'Galaxy & Deep Space shows a placeholder spiral for cosmic scale.',
+  ],
+  function3d: ['Try a saddle surface and find the balancing point.', 'Change the equation and watch the surface reshape.'],
+  pendulum: ['Drag the bob high; more height means more energy.', 'Energy swaps between potential and kinetic as it swings.'],
+  gravity: ['Move a planet a little, then watch the orbit.', 'Add a second planet and watch gravity pull.'],
+  periodic: ['Pick one element you know, then find one you have never heard of.', 'Elements in the same column share similar properties.'],
+  molecules: ['Spin the molecule and look for symmetry.', 'Each stick is a chemical bond.'],
+  waves: ['Move the sources until you find a quiet spot.', 'Two waves can cancel each other out.'],
+  circuit: ['Close the loop first; electricity needs a complete path.', 'Add more batteries to make it brighter.'],
+  fractal: ['Zoom into the boundary; that is where the interesting structure lives.', 'Fractals look similar at different zoom levels.'],
+  titration: ['Drip slowly near the steep part of the pH curve.'],
+  atoms: ['The number of protons tells you which element it is.'],
+  orbitals: ['Brighter areas mean the electron is more likely to be found there.'],
+  reactions: ['Watch energy arrows to see whether energy is released.'],
+  crystal: ['Every atom is in a repeating pattern.'],
+  vectors: ['Arrows show direction and size; longer means stronger.'],
+  trig: ['The unit circle is the secret behind many waves.'],
+  complex: ['i is the square root of -1: imaginary, but useful.'],
+  linearalg: ['A matrix is a grid of numbers that can transform space.'],
+  calculus: ['The slope of a curve at any point is the derivative.'],
+  newton: ['Force equals mass times acceleration: push harder, move faster.'],
+  projectile: ['Angle and speed decide where it lands.'],
+  optics: ['Light bends when it enters glass or water.'],
+  emfield: ['Opposite charges attract; same charges repel.'],
+  fluid: ['Fluids flow from high pressure to low pressure.'],
+  relativity: ['Nothing travels faster than light.'],
+  thermal: ['Heat flows from hot to cold.'],
+  quantum: ['Quantum particles can be in more than one state before measurement.'],
+  blackhole: ['Light cannot escape from a black hole once it crosses the event horizon.'],
+  neuron: ['Neurons send electrical signals to each other.'],
+  kepler: ['Planets travel in ellipses, not perfect circles.'],
+  smoke: ['Smoke follows the math of fluid dynamics.'],
+  graph2d: ['Try dragging the graph to explore different regions.'],
+  geometry: ['Try measuring angles by clicking connected lines.'],
+  'solar-system': ['Pause the planets and compare their orbit distances.'],
+  'ar-sky-map': ['Find Sirius, Vega, Polaris, and Betelgeuse on the placeholder sky dome.'],
+  telescope: ['Zoom in slowly and notice how magnification narrows the view.'],
+  'earth-moon-sun': ['Watch the Moon orbit Earth, then imagine sunlight coming from the Sun.'],
+  'galaxy-deep-space': ['Compare the dense core with the thinner outer spiral arms.'],
+  'astro-missions': ['Pick one mission card and match it to the simulator that should teach it.'],
 };
 
 export class SmartHint {
@@ -100,7 +111,7 @@ export class SmartHint {
     const pool = HINTS[this._context] || HINTS.home;
     const tip = pool[Math.floor(Math.random() * pool.length)];
     if (!this._el) return;
-    this._el.textContent = '💡 ' + tip;
+    this._el.textContent = 'Hint: ' + tip;
     this._el.style.opacity = '1';
     this._el.style.transform = 'translateX(-50%) translateY(-4px)';
     setTimeout(() => this._hideHint(), 7000);
@@ -115,7 +126,6 @@ export class SmartHint {
   setContext(ctx) {
     this._context = ctx;
     this._resetTimer();
-    // Show a welcoming tip shortly after entering a new area
     clearTimeout(this._enterTimer);
     this._enterTimer = setTimeout(() => this._showHint(), 4000);
   }

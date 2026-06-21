@@ -4,7 +4,8 @@ const TROPHY_DEFS = [
   { id: 'math_explorer',  label: 'Math Explorer',       condition: p => p.mathLabs >= 3 },
   { id: 'physics_ace',    label: 'Physics Ace',         condition: p => p.physicsLabs >= 3 },
   { id: 'chem_builder',   label: 'Chem Builder',        condition: p => p.chemLabs >= 3 },
-  { id: 'portal_hopper',  label: 'Portal Hopper',       condition: p => p.mathLabs >= 1 && p.physicsLabs >= 1 && p.chemLabs >= 1 },
+  { id: 'astro_observer', label: 'Astro Observer',      condition: p => p.astroLabs >= 2 },
+  { id: 'portal_hopper',  label: 'Portal Hopper',       condition: p => p.mathLabs >= 1 && p.physicsLabs >= 1 && p.chemLabs >= 1 && p.astroLabs >= 1 },
   { id: 'completionist',  label: 'Lab Completionist',   condition: p => p.mathLabs >= 9 && p.physicsLabs >= 11 && p.chemLabs >= 11 },
   { id: 'time_tinkerer',  label: 'Time Tinkerer',       condition: p => p.totalMinutes >= 30 },
   { id: 'voice_master',   label: 'Voice Commander',     condition: p => p.voiceCommands >= 5 },
@@ -33,6 +34,7 @@ export class ProgressDashboard {
       mathLabs: 0,
       physicsLabs: 0,
       chemLabs: 0,
+      astroLabs: 0,
       totalMinutes: 0,
       voiceCommands: 0,
       screenshots: 0,
@@ -50,6 +52,7 @@ export class ProgressDashboard {
       if (subject === 'math') this._data.mathLabs++;
       if (subject === 'physics') this._data.physicsLabs++;
       if (subject === 'chem') this._data.chemLabs++;
+      if (subject === 'astro') this._data.astroLabs++;
     }
     this._data.visitedLabs[key]++;
     this._touchMastery(key, 4);
@@ -159,6 +162,7 @@ export class ProgressDashboard {
         <div><strong>${this._data.mathLabs}</strong><span>Math Labs</span></div>
         <div><strong>${this._data.physicsLabs}</strong><span>Physics Labs</span></div>
         <div><strong>${this._data.chemLabs}</strong><span>Chem Labs</span></div>
+        <div><strong>${this._data.astroLabs || 0}</strong><span>Astro Labs</span></div>
         <div><strong>${total}</strong><span>Missions Tried</span></div>
         <div><strong>${mins}m</strong><span>Time in Lab</span></div>
         <div><strong>${mastery.average}%</strong><span>Avg Mastery</span></div>

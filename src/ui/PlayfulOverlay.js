@@ -1,75 +1,84 @@
 const SUBJECT_COPY = {
   math: {
-    name: 'Math',
-    icon: '📐',
     accent: '#00d4ff',
-    entry: '📐 Math world unlocked!',
+    entry: 'Math world unlocked!',
     missions: [
-      '🌊 Bend a graph until its pattern reveals itself!',
-      '🔺 Find a shape, spin it, and name one hidden symmetry!',
-      '📈 Make an equation feel less flat than paper!',
+      'Bend a graph until its pattern reveals itself.',
+      'Find a shape, spin it, and name one hidden symmetry.',
+      'Make an equation feel less flat than paper.',
     ],
   },
   physics: {
-    name: 'Physics',
-    icon: '⚡',
     accent: '#ff6b35',
-    entry: '⚡ Physics lab charged up!',
+    entry: 'Physics lab charged up!',
     missions: [
-      '🍎 Give something a push and watch the rules answer back!',
-      '🌊 Catch a motion trail before it escapes the lab!',
-      '🔬 Change one variable and spot what the universe does!',
+      'Give something a push and watch the rules answer back.',
+      'Catch a motion trail before it escapes the lab.',
+      'Change one variable and spot what the universe does.',
     ],
   },
   chem: {
-    name: 'Chemistry',
-    icon: '⚗️',
     accent: '#7fff7f',
-    entry: '⚗️ Chemistry lab bubbling!',
+    entry: 'Chemistry lab bubbling!',
     missions: [
-      '🔍 Inspect a tiny structure like it has secrets!',
-      '🔗 Find the bond that makes the molecule hold together!',
-      '💥 Make matter rearrange itself into something new!',
+      'Inspect a tiny structure like it has secrets.',
+      'Find the bond that makes the molecule hold together.',
+      'Make matter rearrange itself into something new.',
+    ],
+  },
+  astro: {
+    accent: '#8de6ff',
+    entry: 'Astro Physics observatory online!',
+    missions: [
+      'Compare planets and notice how distance changes the system.',
+      'Point the telescope at a target and think about field of view.',
+      'Trace an orbit and predict what the next phase will explain.',
     ],
   },
 };
 
 const TOPIC_MISSIONS = {
-  function3d: '🏔️ Mission: sculpt a surface and find its highest ridge!',
-  graph2d:    '📈 Mission: trace a curve and predict where it crosses zero!',
-  geometry:   '📐 Mission: rotate a shape until a hidden angle appears!',
-  calculus:   '∫ Mission: make tiny slices explain a big area!',
-  vectors:    '➡️ Mission: combine two arrows and chase the result!',
-  trig:       '〽️ Mission: spin the circle and catch sine in motion!',
-  complex:    '🔢 Mission: move a point and watch the plane respond!',
-  linearalg:  '🔲 Mission: transform space without losing your bearings!',
-  fractal:    '🌀 Mission: zoom into the edge and find repeating chaos!',
-  newton:     '🍎 Mission: push, pull, and prove inertia has opinions!',
-  gravity:    '🪐 Mission: nudge an orbit and keep the planet dancing!',
-  projectile: '🚀 Mission: launch once, adjust twice, land on target!',
-  waves:      '🌊 Mission: move two waves until a quiet node appears!',
-  optics:     '🔭 Mission: bend light and predict where it lands!',
-  pendulum:   '⏰ Mission: lift the bob and trade height for speed!',
-  emfield:    '⚡ Mission: place a charge and map its invisible reach!',
-  fluid:      '💧 Mission: stir the flow and follow one swirl!',
-  relativity: '🌌 Mission: stretch time enough to notice!',
-  circuit:    '💡 Mission: close a loop and wake up the current!',
-  thermal:    '🌡️ Mission: move heat from hot chaos to cool order!',
-  periodic:   '🧪 Mission: pick an element and uncover its personality!',
-  molecules:  '🔬 Mission: rotate a molecule until its shape clicks!',
-  atomic:     '⚛️ Mission: orbit the atom and spot the energy levels!',
-  bonding:    '🔗 Mission: connect atoms and explain why they stay!',
-  orbitals:   '☁️ Mission: find the cloud where an electron may be hiding!',
-  crystal:    '💎 Mission: repeat one cell until a lattice appears!',
-  reactions:  '🔥 Mission: start a reaction and track the rearrangement!',
-  rxnEnergy:  '⚡ Mission: climb the energy hill and find the drop!',
-  spectro:    '🌈 Mission: read the colored lines like a fingerprint!',
-  protein:    '🧬 Mission: fold the chain and find the structure!',
-  titration:  '💧 Mission: drip carefully and catch the color shift!',
+  function3d: 'Mission: sculpt a surface and find its highest ridge.',
+  graph2d: 'Mission: trace a curve and predict where it crosses zero.',
+  geometry: 'Mission: rotate a shape until a hidden angle appears.',
+  calculus: 'Mission: make tiny slices explain a big area.',
+  vectors: 'Mission: combine two arrows and chase the result.',
+  trig: 'Mission: spin the circle and catch sine in motion.',
+  complex: 'Mission: move a point and watch the plane respond.',
+  linearalg: 'Mission: transform space without losing your bearings.',
+  fractal: 'Mission: zoom into the edge and find repeating chaos.',
+  newton: 'Mission: push, pull, and prove inertia has opinions.',
+  gravity: 'Mission: nudge an orbit and keep the planet moving.',
+  projectile: 'Mission: launch once, adjust twice, land on target.',
+  waves: 'Mission: move two waves until a quiet node appears.',
+  optics: 'Mission: bend light and predict where it lands.',
+  pendulum: 'Mission: lift the bob and trade height for speed.',
+  emfield: 'Mission: place a charge and map its invisible reach.',
+  fluid: 'Mission: stir the flow and follow one swirl.',
+  relativity: 'Mission: stretch time enough to notice.',
+  circuit: 'Mission: close a loop and wake up the current.',
+  thermal: 'Mission: move heat from hot chaos to cool order.',
+  periodic: 'Mission: pick an element and uncover its personality.',
+  molecules: 'Mission: rotate a molecule until its shape clicks.',
+  atomic: 'Mission: orbit the atom and spot the energy levels.',
+  bonding: 'Mission: connect atoms and explain why they stay.',
+  orbitals: 'Mission: find the cloud where an electron may be hiding.',
+  crystal: 'Mission: repeat one cell until a lattice appears.',
+  reactions: 'Mission: start a reaction and track the rearrangement.',
+  rxnEnergy: 'Mission: climb the energy hill and find the drop.',
+  spectro: 'Mission: read the colored lines like a fingerprint.',
+  protein: 'Mission: fold the chain and find the structure.',
+  titration: 'Mission: drip carefully and catch the color shift.',
+  'solar-system': 'Mission: compare planet distance, size, and orbital speed.',
+  'ar-sky-map': 'Mission: find named stars and imagine aligning them with the real sky.',
+  telescope: 'Mission: zoom in, then explain why field of view gets smaller.',
+  'earth-moon-sun': 'Mission: pause the orbit and predict the Moon phase.',
+  'galaxy-deep-space': 'Mission: compare the dense galactic core with the outer arms.',
+  'astro-missions': 'Mission: choose a future space challenge to build next.',
 };
 
-const CONFETTI_EMOJIS = ['⭐', '🌟', '✨', '💫', '🎉', '🎊', '🎈', '💥', '🔥', '🌈', '🏆', '🎯'];
-const CELEBRATE_EMOJIS = ['🎉', '⭐', '🌟', '✨', '💫', '🎊'];
+const CONFETTI_EMOJIS = ['*', '+', '✦', '✧', '★'];
+const CELEBRATE_EMOJIS = ['★', '✦', '✧'];
 
 export class PlayfulOverlay {
   constructor() {
@@ -98,7 +107,7 @@ export class PlayfulOverlay {
 
   showTopic(subjectId, topicId) {
     const copy = SUBJECT_COPY[subjectId] || SUBJECT_COPY.math;
-    this.showMission(TOPIC_MISSIONS[topicId] || '🔬 Mission: poke the lab and see what pushes back!', copy.accent);
+    this.showMission(TOPIC_MISSIONS[topicId] || 'Mission: poke the lab and see what pushes back.', copy.accent);
     this.confetti();
   }
 
@@ -116,7 +125,6 @@ export class PlayfulOverlay {
     this._mission.classList.add('mission-visible');
   }
 
-  // Burst of emoji confetti from center (or given position)
   confetti(x = window.innerWidth / 2, y = window.innerHeight * 0.45) {
     for (let i = 0; i < 20; i++) {
       const el = document.createElement('div');
@@ -134,8 +142,7 @@ export class PlayfulOverlay {
     }
   }
 
-  // A single emoji floats up from a position
-  floatUp(emoji = '⭐', x = window.innerWidth / 2, y = window.innerHeight * 0.6) {
+  floatUp(emoji = '★', x = window.innerWidth / 2, y = window.innerHeight * 0.6) {
     const el = document.createElement('div');
     el.className = 'float-emoji';
     el.textContent = emoji;
@@ -145,7 +152,6 @@ export class PlayfulOverlay {
     setTimeout(() => el.remove(), 1500);
   }
 
-  // Sparkle dot burst (dots, not emoji)
   sparkle(accent = '#ffd700') {
     const layer = document.createElement('div');
     layer.className = 'sparkle-layer';
@@ -161,7 +167,6 @@ export class PlayfulOverlay {
     setTimeout(() => layer.remove(), 1100);
   }
 
-  // Big celebration: confetti + floating emojis
   celebrate(x, y) {
     this.confetti(x, y);
     CELEBRATE_EMOJIS.forEach((emoji, i) => {
@@ -188,7 +193,7 @@ export class PlayfulOverlay {
   _buildHomePrompt() {
     const el = document.createElement('div');
     el.id = 'home-prompt';
-    el.innerHTML = '<strong>🌟 Pick a portal!</strong><span>Touch or click a glowing orb to start your science adventure!</span>';
+    el.innerHTML = '<strong>Pick a portal!</strong><span>Touch or click a glowing orb to start your science adventure.</span>';
     document.body.appendChild(el);
     return el;
   }

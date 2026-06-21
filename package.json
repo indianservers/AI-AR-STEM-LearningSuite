@@ -1,7 +1,7 @@
 {
   "name": "ar-ai-interactive-mpc",
   "version": "1.0.0",
-  "description": "World-class AR+VR+MR Interactive Learning Platform for Math, Physics & Chemistry",
+  "description": "World-class AR+VR+MR Interactive Learning Platform for Math, Physics, Chemistry, and Astro Physics",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,8 @@
     "@babylonjs/gui": "^7.35.0",
     "@babylonjs/loaders": "^7.35.0",
     "@babylonjs/materials": "^7.35.0",
-    "@mediapipe/tasks-vision": "^0.10.18"
+    "@mediapipe/tasks-vision": "^0.10.18",
+    "astronomy-engine": "^2.1.19"
   },
   "devDependencies": {
     "vite": "^5.4.0"

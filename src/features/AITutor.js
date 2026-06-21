@@ -199,7 +199,7 @@ export class AITutor {
 
   setContext(ctx) {
     this._context = ctx;
-    this.setLearningState({ topic: ctx && !['home', 'math', 'physics', 'chem'].includes(ctx) ? ctx : null });
+    this.setLearningState({ topic: ctx && !['home', 'math', 'physics', 'chem', 'astro'].includes(ctx) ? ctx : null });
     // Auto-show a welcome tip when entering a new area
     clearTimeout(this._autoCoachTimer);
     this._autoCoachTimer = setTimeout(() => {
@@ -318,7 +318,7 @@ export class AITutor {
   _introLine() {
     const state = this._learningState;
     if (state.object) return `I spotted ${state.object}! Want a hint, the "why", or a challenge?`;
-    const areaNames = { home: 'the Start Screen', math: 'Math World', physics: 'Physics World', chem: 'Chemistry World' };
+    const areaNames = { home: 'the Start Screen', math: 'Math World', physics: 'Physics World', chem: 'Chemistry World', astro: 'Astro Physics Observatory' };
     const area = areaNames[this._context] || this._context;
     return `Hi! I'm your Lab Buddy in ${area}. Ask me anything — hints, explanations, or challenges!`;
   }

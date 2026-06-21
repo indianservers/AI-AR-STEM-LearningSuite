@@ -1,4 +1,4 @@
-const CACHE = 'cosmiclearn-v1';
+const CACHE = 'cosmiclearn-v2-astro-sky';
 const PRECACHE = ['/', '/index.html', '/style.css', '/manifest.json'];
 
 self.addEventListener('install', e => {

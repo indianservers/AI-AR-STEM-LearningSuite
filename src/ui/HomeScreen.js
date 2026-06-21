@@ -8,22 +8,29 @@ const SUBJECTS = [
     id: 'math',
     label: 'Mathematics',
     color: new Color3(0, 0.84, 1),
-    pos: new Vector3(-5.4, 0.15, 0.65),
+    pos: new Vector3(-7.2, 0.15, 0.65),
     summary: 'A portal into graphs, geometry, vectors, functions, patterns, and transformations.',
   },
   {
     id: 'physics',
     label: 'Physics',
     color: new Color3(1, 0.42, 0.13),
-    pos: new Vector3(0, 0.35, -0.35),
+    pos: new Vector3(-2.4, 0.35, -0.35),
     summary: 'A portal into forces, motion, waves, energy, circuits, gravity, and fields.',
   },
   {
     id: 'chem',
     label: 'Chemistry',
     color: new Color3(0.5, 1, 0.5),
-    pos: new Vector3(5.4, 0.15, 0.65),
+    pos: new Vector3(2.4, 0.15, 0.65),
     summary: 'A portal into atoms, molecules, bonds, orbitals, reactions, and matter.',
+  },
+  {
+    id: 'astro',
+    label: 'Astro Physics',
+    color: new Color3(0.52, 0.74, 1),
+    pos: new Vector3(7.2, 0.25, 0.65),
+    summary: 'Explore the Universe through 3D, AR Sky, telescopes, stars, planets, galaxies, and space missions.',
   },
 ];
 

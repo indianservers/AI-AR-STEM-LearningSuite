@@ -1,0 +1,597 @@
+.astro-sky-real-panel {
+  position: fixed;
+  z-index: 92;
+  top: 76px;
+  left: 16px;
+  width: min(430px, calc(100vw - 32px));
+  max-height: calc(100vh - 168px);
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(4, 12, 32, 0.9);
+  color: #eef7ff;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38);
+  pointer-events: auto;
+}
+
+.astro-sky-header {
+  display: grid;
+  gap: 8px;
+}
+
+.astro-sky-header h3,
+.astro-sky-header p,
+.astro-sky-info p,
+.astro-sky-accuracy p {
+  margin: 6px 0;
+}
+
+.astro-sky-header h3 {
+  font-size: 1.15rem;
+  letter-spacing: 0;
+}
+
+.astro-sky-badges,
+.astro-sky-control-row,
+.astro-sky-toggle-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.astro-sky-badges span {
+  padding: 5px 8px;
+  border: 1px solid rgba(141, 230, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(9, 27, 61, 0.78);
+  color: #9ddfff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.astro-sky-permissions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.astro-sky-permissions article,
+.astro-sky-info,
+.astro-sky-accuracy,
+.astro-sky-search-results button {
+  border: 1px solid rgba(141, 230, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(8, 20, 48, 0.78);
+}
+
+.astro-sky-permissions article {
+  padding: 10px;
+}
+
+.astro-sky-permissions p {
+  margin: 6px 0 10px;
+  color: #cbdcf2;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.astro-sky-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.astro-sky-controls label {
+  display: grid;
+  gap: 5px;
+  color: #eef7ff;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.astro-sky-controls input[type="search"],
+.astro-sky-controls input[type="datetime-local"] {
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(2, 8, 22, 0.92);
+  color: #eef7ff;
+  padding: 7px 9px;
+}
+
+.astro-sky-controls button,
+.astro-sky-permissions button,
+.astro-sky-info button,
+.astro-sky-search-results button {
+  min-height: 40px;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(13, 40, 82, 0.92);
+  color: #eef7ff;
+  font-weight: 800;
+}
+
+.astro-sky-controls button:focus-visible,
+.astro-sky-permissions button:focus-visible,
+.astro-sky-info button:focus-visible,
+.astro-sky-search-results button:focus-visible,
+.astro-sky-controls input:focus-visible {
+  outline: 2px solid #8de6ff;
+  outline-offset: 2px;
+}
+
+.astro-sky-toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.astro-sky-toggle-grid label {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+}
+
+.astro-sky-search-results {
+  display: grid;
+  gap: 6px;
+}
+
+.astro-sky-quick-search,
+.astro-sky-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.astro-sky-quick-search button {
+  min-height: 32px;
+  padding: 5px 8px;
+  font-size: 0.72rem;
+}
+
+.astro-sky-result-card {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(141, 230, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(8, 20, 48, 0.78);
+}
+
+.astro-sky-search-results button {
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  text-align: left;
+}
+
+.astro-sky-result-actions button {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px;
+  font-size: 0.72rem;
+}
+
+.astro-sky-search-results span,
+.astro-sky-result-card small,
+.astro-sky-search-results small {
+  color: #b9d8f4;
+}
+
+.astro-sky-info,
+.astro-sky-accuracy {
+  margin-top: 12px;
+  padding: 10px;
+}
+
+.astro-sky-section {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(141, 230, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(7, 18, 44, 0.58);
+}
+
+.astro-sky-section summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.astro-sky-section textarea {
+  width: 100%;
+  min-height: 72px;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(2, 8, 22, 0.92);
+  color: #eef7ff;
+}
+
+.astro-sky-section select {
+  min-height: 38px;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(2, 8, 22, 0.92);
+  color: #eef7ff;
+}
+
+.astro-sky-live-card,
+.astro-sky-guide-card,
+.astro-sky-observation-log article {
+  margin-top: 8px;
+  padding: 9px;
+  border: 1px solid rgba(141, 230, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(4, 12, 32, 0.78);
+}
+
+.astro-sky-live-card p,
+.astro-sky-guide-card p,
+.astro-sky-observation-log p,
+.astro-sky-section li {
+  margin: 5px 0;
+  color: #cbdcf2;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.astro-sky-guidance-arrow {
+  display: inline-flex;
+  min-width: 92px;
+  justify-content: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 216, 102, 0.16);
+  color: #ffe69a;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.astro-sky-highlight-grid {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.astro-sky-highlight-grid button {
+  display: grid;
+  gap: 3px;
+  padding: 9px;
+  text-align: left;
+  border: 1px solid rgba(141, 230, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(8, 20, 48, 0.78);
+  color: #eef7ff;
+}
+
+.astro-sky-highlight-grid span,
+.astro-sky-search-results em {
+  color: #9ddfff;
+  font-size: 0.75rem;
+  font-style: normal;
+}
+
+.astro-sky-observation-log {
+  display: grid;
+  gap: 7px;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.astro-sky-info details {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(2, 8, 22, 0.5);
+}
+
+.astro-sky-info h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.astro-sky-safety {
+  color: #ffe69a;
+  font-weight: 800;
+}
+
+.astro-sky-night-mode .astro-sky-real-panel,
+.astro-sky-night-mode .astro-toolbar,
+.astro-sky-night-mode .astro-info-panel {
+  border-color: rgba(255, 105, 85, 0.36);
+  background: rgba(18, 5, 8, 0.92);
+  color: #ffd6d0;
+}
+
+.astro-sky-night-mode .astro-sky-controls button,
+.astro-sky-night-mode .astro-sky-permissions button,
+.astro-sky-night-mode .astro-sky-info button {
+  border-color: rgba(255, 105, 85, 0.32);
+  background: rgba(74, 16, 18, 0.92);
+}
+
+.ar-sky-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 91;
+  overflow: hidden;
+  background: #020816;
+  color: #eef7ff;
+  pointer-events: auto;
+}
+
+.ar-sky-overlay[hidden] {
+  display: none;
+}
+
+.camera-overlay-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #020816;
+}
+
+.ar-label-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ar-object-label {
+  position: absolute;
+  display: grid;
+  min-width: 96px;
+  max-width: 148px;
+  gap: 1px;
+  padding: 7px 9px;
+  border: 1px solid rgba(141, 230, 255, 0.44);
+  border-radius: 8px;
+  background: rgba(2, 8, 22, 0.74);
+  color: #eef7ff;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+
+.ar-object-label strong {
+  overflow: hidden;
+  font-size: 0.78rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ar-object-label span,
+.ar-object-label small {
+  color: #b9d8f4;
+  font-size: 0.65rem;
+  line-height: 1.15;
+}
+
+.ar-object-label.selected,
+.ar-object-label.target {
+  border-color: rgba(255, 216, 102, 0.72);
+  background: rgba(30, 22, 6, 0.82);
+}
+
+.ar-object-label.target::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(255, 216, 102, 0.35);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.ar-guidance-card {
+  position: absolute;
+  left: max(14px, env(safe-area-inset-left));
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 216, 102, 0.34);
+  border-radius: 8px;
+  background: rgba(4, 12, 32, 0.82);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+}
+
+.ar-guidance-card[hidden] {
+  display: none;
+}
+
+.ar-guidance-arrow {
+  min-width: 76px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255, 216, 102, 0.2);
+  color: #ffe69a;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ar-guidance-arrow.centered {
+  background: rgba(80, 220, 160, 0.22);
+  color: #a9f7d6;
+}
+
+.ar-guidance-arrow.below {
+  background: rgba(255, 112, 102, 0.2);
+  color: #ffc7c1;
+}
+
+.ar-guidance-text {
+  margin: 0;
+  color: #eef7ff;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.ar-status-bar,
+.ar-exit-button,
+.ar-sun-warning {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid rgba(141, 230, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(2, 8, 22, 0.78);
+  color: #eef7ff;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.ar-status-bar {
+  top: max(12px, env(safe-area-inset-top));
+  left: max(12px, env(safe-area-inset-left));
+  max-width: min(54vw, 480px);
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.ar-exit-button {
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  min-height: 38px;
+  padding: 7px 11px;
+  font-weight: 900;
+}
+
+.ar-sun-warning {
+  top: max(58px, calc(env(safe-area-inset-top) + 58px));
+  right: max(12px, env(safe-area-inset-right));
+  max-width: min(58vw, 420px);
+  padding: 8px 10px;
+  border-color: rgba(255, 216, 102, 0.44);
+  color: #ffe69a;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.sky-tour-panel,
+.teacher-sky-panel,
+.sky-diagnostics-panel {
+  display: grid;
+  gap: 6px;
+}
+
+.astro-sky-achievements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.astro-sky-achievements span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 216, 102, 0.32);
+  border-radius: 999px;
+  background: rgba(255, 216, 102, 0.12);
+  color: #ffe69a;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.astro-sky-high-contrast .astro-sky-real-panel,
+.astro-sky-high-contrast .ar-sky-overlay {
+  background: rgba(0, 0, 0, 0.96);
+  color: #ffffff;
+}
+
+.astro-sky-high-contrast .ar-object-label,
+.astro-sky-high-contrast .astro-sky-live-card,
+.astro-sky-high-contrast .astro-sky-section {
+  border-color: #ffffff;
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.astro-sky-large-text .astro-sky-real-panel {
+  font-size: 1.08rem;
+}
+
+.astro-sky-large-text .astro-sky-controls button,
+.astro-sky-large-text .astro-sky-section select,
+.astro-sky-large-text .astro-sky-controls input {
+  min-height: 46px;
+  font-size: 1rem;
+}
+
+.astro-sky-large-text .ar-object-label strong {
+  font-size: 0.92rem;
+}
+
+.astro-sky-reduced-motion *,
+.astro-sky-reduced-motion *::before,
+.astro-sky-reduced-motion *::after {
+  scroll-behavior: auto !important;
+  transition-duration: 0.001ms !important;
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+@media (max-width: 820px) {
+  .astro-sky-real-panel {
+    top: auto;
+    left: 10px;
+    right: 10px;
+    bottom: 92px;
+    width: auto;
+    max-height: 56vh;
+    padding: 12px;
+  }
+
+  .astro-sky-permissions {
+    grid-template-columns: 1fr;
+  }
+
+  .ar-status-bar {
+    max-width: calc(100vw - 116px);
+  }
+
+  .ar-object-label {
+    min-width: 86px;
+    max-width: 132px;
+    padding: 6px 8px;
+  }
+
+  .ar-guidance-card {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .ar-guidance-arrow {
+    width: fit-content;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .astro-sky-real-panel {
+    top: 58px;
+    bottom: 76px;
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .astro-sky-real-panel,
+  .astro-sky-controls button {
+    transition: none !important;
+  }
+}
